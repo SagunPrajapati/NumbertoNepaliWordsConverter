@@ -3,14 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Number to Nepali Words Converter</title>
+<title>Number to Nepali Words</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Nepali:ital@0;1&display=swap');
-
-  /* Preeti font embedded as base64 - using CSS @font-face with web-safe fallback */
-  /* Preeti is a legacy encoding font; we'll use Unicode Devanagari for display
-     but also provide Preeti-encoded output for copy-paste into Preeti-font documents */
-
   :root {
     --crimson: #C0392B;
     --gold: #D4A017;
@@ -20,9 +14,7 @@
     --ink: #2C1810;
     --border: #8B6914;
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   body {
     background: var(--dark);
     min-height: 100vh;
@@ -30,501 +22,217 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-family: 'Tiro Devanagari Nepali', serif;
+    font-family: 'Segoe UI', Arial, sans-serif;
     padding: 20px;
     background-image: 
       radial-gradient(ellipse at 20% 50%, rgba(192,57,43,0.15) 0%, transparent 50%),
       radial-gradient(ellipse at 80% 20%, rgba(212,160,23,0.1) 0%, transparent 40%);
   }
-
   .container {
     background: var(--paper);
     border-radius: 4px;
-    padding: 48px 52px;
-    max-width: 680px;
+    padding: 40px 44px;
+    max-width: 660px;
     width: 100%;
-    box-shadow: 
-      0 0 0 1px var(--border),
-      0 0 0 4px var(--paper2),
-      0 0 0 5px var(--border),
-      0 20px 60px rgba(0,0,0,0.6),
-      inset 0 1px 0 rgba(255,255,255,0.8);
+    box-shadow: 0 0 0 1px var(--border), 0 0 0 4px var(--paper2), 0 0 0 5px var(--border), 0 20px 60px rgba(0,0,0,0.6);
     position: relative;
-    overflow: hidden;
   }
-
   .container::before {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 6px;
+    top: 0; left: 0; right: 0; height: 5px;
     background: linear-gradient(90deg, var(--crimson), var(--gold), var(--crimson));
+    border-radius: 4px 4px 0 0;
   }
-
-  .corner-ornament {
-    position: absolute;
-    width: 60px; height: 60px;
-    opacity: 0.2;
-    font-size: 48px;
-    line-height: 60px;
-    text-align: center;
-  }
-  .corner-ornament.tl { top: 14px; left: 10px; }
-  .corner-ornament.tr { top: 14px; right: 10px; }
-
-  .header {
-    text-align: center;
-    margin-bottom: 36px;
-  }
-
-  .header .subtitle {
-    font-size: 11px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 8px;
+  .header { text-align: center; margin-bottom: 28px; }
+  .subtitle { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+  h1 { font-size: 24px; color: var(--ink); font-weight: 600; margin-bottom: 4px; }
+  .nepali-title { font-size: 20px; color: var(--crimson); }
+  .divider { display: flex; align-items: center; gap: 10px; margin: 16px 0; }
+  .dl { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); }
+  .dg { color: var(--gold); font-size: 12px; }
+  label { display: block; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--border); margin-bottom: 10px; }
+  #numberInput {
+    width: 100%; padding: 14px 16px; font-size: 32px;
+    border: 1px solid var(--border); border-radius: 2px;
+    background: white; color: var(--ink); text-align: center; outline: none;
     font-family: Georgia, serif;
-  }
-
-  .header h1 {
-    font-size: 28px;
-    color: var(--ink);
-    font-weight: 400;
-    line-height: 1.2;
-    margin-bottom: 6px;
-  }
-
-  .header .nepali-title {
-    font-size: 22px;
-    color: var(--crimson);
-    opacity: 0.8;
-  }
-
-  .divider {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 20px 0;
-  }
-  .divider-line {
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border), transparent);
-  }
-  .divider-gem {
-    color: var(--gold);
-    font-size: 14px;
-  }
-
-  .input-section {
-    margin-bottom: 24px;
-  }
-
-  label {
-    display: block;
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--border);
-    margin-bottom: 10px;
-    font-family: Georgia, serif;
-  }
-
-  .input-wrapper {
-    position: relative;
-  }
-
-  input[type="number"] {
-    width: 100%;
-    padding: 16px 20px;
-    font-size: 28px;
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    background: white;
-    color: var(--ink);
-    font-family: Georgia, serif;
-    text-align: center;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
     -moz-appearance: textfield;
   }
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
-
-  input[type="number"]:focus {
-    border-color: var(--crimson);
-    box-shadow: 0 0 0 3px rgba(192,57,43,0.12);
-  }
-
-  .currency-toggle {
-    display: flex;
-    gap: 10px;
-    margin-top: 14px;
-    justify-content: center;
-  }
-
+  #numberInput::-webkit-inner-spin-button, #numberInput::-webkit-outer-spin-button { -webkit-appearance: none; }
+  #numberInput:focus { border-color: var(--crimson); box-shadow: 0 0 0 3px rgba(192,57,43,0.12); }
+  .currency-toggle { display: flex; gap: 8px; margin-top: 12px; justify-content: center; flex-wrap: wrap; }
   .currency-btn {
-    padding: 7px 20px;
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    background: transparent;
-    color: var(--ink);
-    cursor: pointer;
-    font-size: 13px;
-    font-family: Georgia, serif;
-    transition: all 0.2s;
-    letter-spacing: 1px;
+    padding: 7px 18px; border: 1px solid var(--border); border-radius: 2px;
+    background: transparent; color: var(--ink); cursor: pointer; font-size: 13px; transition: all 0.2s;
   }
-
-  .currency-btn.active {
-    background: var(--crimson);
-    border-color: var(--crimson);
-    color: white;
+  .currency-btn.active { background: var(--crimson); border-color: var(--crimson); color: white; }
+  .currency-btn:hover:not(.active) { background: var(--paper2); border-color: var(--crimson); }
+  .result-box {
+    background: white; border: 1px solid var(--border); border-radius: 2px;
+    padding: 24px 20px; min-height: 100px; text-align: center; position: relative;
   }
-
-  .currency-btn:hover:not(.active) {
-    background: var(--paper2);
-    border-color: var(--crimson);
-  }
-
-  .result-section {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    padding: 28px 24px;
-    min-height: 100px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .result-section::before {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 3px;
+  .result-box::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
     background: linear-gradient(90deg, var(--crimson), var(--gold), var(--crimson));
   }
-
-  .result-unicode {
-    font-family: 'Tiro Devanagari Nepali', serif;
-    font-size: 26px;
-    color: var(--ink);
-    text-align: center;
-    line-height: 1.5;
-    transition: all 0.3s;
-  }
-
-  .result-preeti {
-    font-family: 'Preeti', 'Arial', sans-serif;
-    font-size: 24px;
-    color: var(--crimson);
-    text-align: center;
-    line-height: 1.5;
-    word-break: break-word;
-  }
-
-  .result-label {
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #999;
-    font-family: Georgia, serif;
-  }
-
-  .placeholder-text {
-    color: #bbb;
-    font-family: Georgia, serif;
-    font-size: 15px;
-    font-style: italic;
-    letter-spacing: 1px;
-  }
-
+  .res-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #aaa; margin-bottom: 6px; }
+  .res-unicode { font-size: 26px; color: var(--ink); line-height: 1.5; margin-bottom: 14px; }
+  .res-preeti { font-size: 22px; color: var(--crimson); line-height: 1.5; margin-bottom: 14px; word-break: break-word; }
+  .placeholder { color: #bbb; font-style: italic; font-size: 15px; padding: 14px 0; }
+  .copy-row { display: flex; gap: 8px; justify-content: center; margin-top: 10px; }
   .copy-btn {
-    padding: 8px 18px;
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    color: var(--border);
-    cursor: pointer;
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    font-family: Georgia, serif;
-    transition: all 0.2s;
-    margin-top: 4px;
+    padding: 7px 16px; background: transparent; border: 1px solid var(--border);
+    border-radius: 2px; color: var(--border); cursor: pointer; font-size: 11px;
+    letter-spacing: 1px; transition: all 0.2s;
   }
-  .copy-btn:hover {
-    background: var(--gold);
-    border-color: var(--gold);
-    color: white;
-  }
-  .copy-btn.copied {
-    background: #27ae60;
-    border-color: #27ae60;
-    color: white;
-  }
-
-  .examples {
-    margin-top: 24px;
-  }
-  .examples-title {
-    font-size: 10px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--border);
-    text-align: center;
-    margin-bottom: 12px;
-    font-family: Georgia, serif;
-  }
-  .example-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-  }
+  .copy-btn:hover { background: var(--gold); border-color: var(--gold); color: white; }
+  .copy-btn.copied { background: #27ae60; border-color: #27ae60; color: white; }
+  .examples { margin-top: 20px; text-align: center; }
+  .ex-title { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--border); margin-bottom: 10px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; justify-content: center; }
   .chip {
-    padding: 5px 14px;
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    font-size: 13px;
-    color: var(--ink);
-    cursor: pointer;
-    background: transparent;
-    font-family: Georgia, serif;
-    transition: all 0.2s;
+    padding: 5px 13px; border: 1px solid var(--border); border-radius: 20px;
+    font-size: 13px; color: var(--ink); cursor: pointer; background: transparent; transition: all 0.2s;
   }
-  .chip:hover {
-    background: var(--crimson);
-    border-color: var(--crimson);
-    color: white;
-  }
-
-  .footer-note {
-    text-align: center;
-    margin-top: 16px;
-    font-size: 11px;
-    color: #aaa;
-    font-family: Georgia, serif;
-    font-style: italic;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .result-animate {
-    animation: fadeIn 0.3s ease;
-  }
+  .chip:hover { background: var(--crimson); border-color: var(--crimson); color: white; }
 </style>
 </head>
 <body>
-
 <div class="container">
-  <div class="corner-ornament tl">❧</div>
-  <div class="corner-ornament tr">❦</div>
-
   <div class="header">
     <div class="subtitle">Nepali Currency Converter</div>
     <h1>Number to Nepali Words</h1>
-    <div class="nepali-title">अंकलाई नेपाली शब्दमा</div>
+    <div class="nepali-title">&#2309;&#2306;&#2325;&#2354;&#2366;&#2311; &#2344;&#2375;&#2346;&#2366;&#2354;&#2368; &#2358;&#2348;&#2381;&#2342;&#2350;&#2366;</div>
   </div>
 
-  <div class="divider">
-    <div class="divider-line"></div>
-    <div class="divider-gem">✦</div>
-    <div class="divider-line"></div>
+  <div class="divider"><div class="dl"></div><div class="dg">&#10022;</div><div class="dl"></div></div>
+
+  <label>Enter Number &#8212; &#2360;&#2306;&#2326;&#2381;&#2351;&#2366; &#2354;&#2375;&#2326;&#2381;&#2344;&#2369;&#2361;&#2379;&#2360;&#2381;</label>
+  <input type="number" id="numberInput" placeholder="1500" min="0" />
+
+  <div class="currency-toggle">
+    <button class="currency-btn active" id="btn-rupees">&#2352;&#2369;&#2346;&#2376;&#2351;&#2366;&#2901; (Rupees)</button>
+    <button class="currency-btn" id="btn-paisa">&#2346;&#2376;&#2360;&#2366; (Paisa)</button>
+    <button class="currency-btn" id="btn-none">Words Only</button>
   </div>
 
-  <div class="input-section">
-    <label>Enter Number / संख्या लेख्नुहोस्</label>
-    <div class="input-wrapper">
-      <input type="number" id="numberInput" placeholder="e.g. 1500" min="0" max="999999999999" oninput="convert()" />
-    </div>
-    <div class="currency-toggle">
-      <button class="currency-btn active" onclick="setCurrency('rupees')" id="btn-rupees">रुपैयाँ (Rupees)</button>
-      <button class="currency-btn" onclick="setCurrency('paisa')" id="btn-paisa">पैसा (Paisa)</button>
-      <button class="currency-btn" onclick="setCurrency('none')" id="btn-none">Only Words</button>
-    </div>
-  </div>
+  <div class="divider" style="margin-top:20px;"><div class="dl"></div><div class="dg">&#10022;</div><div class="dl"></div></div>
 
-  <div class="result-section" id="resultSection">
-    <span class="placeholder-text">Enter a number above...</span>
+  <div class="result-box" id="resultBox">
+    <div class="placeholder">Enter a number above to convert...</div>
   </div>
 
   <div class="examples">
-    <div class="examples-title">Quick Examples</div>
-    <div class="example-chips">
-      <button class="chip" onclick="setExample(1)">1</button>
-      <button class="chip" onclick="setExample(25)">25</button>
-      <button class="chip" onclick="setExample(100)">100</button>
-      <button class="chip" onclick="setExample(1500)">1,500</button>
-      <button class="chip" onclick="setExample(50000)">50,000</button>
-      <button class="chip" onclick="setExample(100000)">1,00,000</button>
-      <button class="chip" onclick="setExample(2500000)">25,00,000</button>
+    <div class="ex-title">Quick Examples</div>
+    <div class="chips">
+      <button class="chip" data-val="1">1</button>
+      <button class="chip" data-val="10">10</button>
+      <button class="chip" data-val="25">25</button>
+      <button class="chip" data-val="100">100</button>
+      <button class="chip" data-val="1500">1,500</button>
+      <button class="chip" data-val="50000">50,000</button>
+      <button class="chip" data-val="100000">1,00,000</button>
+      <button class="chip" data-val="2500000">25,00,000</button>
     </div>
   </div>
-
-  <div class="footer-note">Supports up to Arab (अरब) • Preeti font encoded output included</div>
 </div>
 
 <script>
-// ─── Nepali number words (Unicode) ───────────────────────────────────────────
-const ones = ['', 'एक', 'दुई', 'तीन', 'चार', 'पाँच', 'छ', 'सात', 'आठ', 'नौ',
-              'दश', 'एघार', 'बाह्र', 'तेह्र', 'चौध', 'पन्ध्र', 'सोह्र', 'सत्र', 'अठार', 'उन्नाइस',
-              'बीस', 'एक्काइस', 'बाइस', 'तेइस', 'चौबीस', 'पच्चीस', 'छब्बीस', 'सत्ताइस', 'अठ्ठाइस', 'उनन्तीस',
-              'तीस', 'एकतीस', 'बत्तीस', 'तेत्तीस', 'चौतीस', 'पैंतीस', 'छत्तीस', 'सैंतीस', 'अठतीस', 'उनचालीस',
-              'चालीस', 'एकचालीस', 'बयालीस', 'त्रियालीस', 'चवालीस', 'पैंतालीस', 'छयालीस', 'सतचालीस', 'अठचालीस', 'उनपचास',
-              'पचास', 'एकाउन्न', 'बाउन्न', 'त्रिपन्न', 'चौपन्न', 'पचपन्न', 'छपन्न', 'सन्ताउन्न', 'अठाउन्न', 'उनसठी',
-              'साठी', 'एकसठी', 'बासठी', 'त्रिसठी', 'चौसठी', 'पैंसठी', 'छैसठी', 'सत्सठी', 'अठसठी', 'उनसत्तरी',
-              'सत्तरी', 'एकहत्तर', 'बहत्तर', 'त्रिहत्तर', 'चौहत्तर', 'पचहत्तर', 'छहत्तर', 'सतहत्तर', 'अठहत्तर', 'उनासी',
-              'असी', 'एकासी', 'बयासी', 'त्र्यासी', 'चौरासी', 'पचासी', 'छयासी', 'सतासी', 'अठासी', 'उनान्नब्बे',
-              'नब्बे', 'एकानब्बे', 'बयानब्बे', 'त्रियानब्बे', 'चौरानब्बे', 'पन्चानब्बे', 'छयानब्बे', 'सन्तानब्बे', 'अठानब्बे', 'उनन्सय'];
+var ones = [
+  '', '\u090f\u0915', '\u0926\u0941\u0908', '\u0924\u0940\u0928', '\u091a\u093e\u0930', '\u092a\u093e\u0901\u091a', '\u091b', '\u0938\u093e\u0924', '\u0906\u0920', '\u0928\u094c',
+  '\u0926\u0936', '\u090f\u0918\u093e\u0930', '\u092c\u093e\u0939\u094d\u0930', '\u0924\u0947\u0939\u094d\u0930', '\u091a\u094c\u0927', '\u092a\u0928\u094d\u0927\u094d\u0930', '\u0938\u094b\u0939\u094d\u0930', '\u0938\u0924\u094d\u0930', '\u0905\u0920\u093e\u0930', '\u0909\u0928\u094d\u0928\u093e\u0907\u0938',
+  '\u092c\u0940\u0938', '\u090f\u0915\u094d\u0915\u093e\u0907\u0938', '\u092c\u093e\u0907\u0938', '\u0924\u0947\u0907\u0938', '\u091a\u094c\u092c\u0940\u0938', '\u092a\u091a\u094d\u091a\u0940\u0938', '\u091b\u092c\u094d\u092c\u0940\u0938', '\u0938\u0924\u094d\u0924\u093e\u0907\u0938', '\u0905\u0920\u094d\u0920\u093e\u0907\u0938', '\u0909\u0928\u0928\u094d\u0924\u0940\u0938',
+  '\u0924\u0940\u0938', '\u090f\u0915\u0924\u0940\u0938', '\u092c\u0924\u094d\u0924\u0940\u0938', '\u0924\u0947\u0924\u094d\u0924\u0940\u0938', '\u091a\u094c\u0924\u0940\u0938', '\u092a\u0948\u0902\u0924\u0940\u0938', '\u091b\u0924\u094d\u0924\u0940\u0938', '\u0938\u0948\u0902\u0924\u0940\u0938', '\u0905\u0920\u0924\u0940\u0938', '\u0909\u0928\u091a\u093e\u0932\u0940\u0938',
+  '\u091a\u093e\u0932\u0940\u0938', '\u090f\u0915\u091a\u093e\u0932\u0940\u0938', '\u092c\u092f\u093e\u0932\u0940\u0938', '\u0924\u094d\u0930\u093f\u092f\u093e\u0932\u0940\u0938', '\u091a\u0935\u093e\u0932\u0940\u0938', '\u092a\u0948\u0902\u0924\u093e\u0932\u0940\u0938', '\u091b\u092f\u093e\u0932\u0940\u0938', '\u0938\u0924\u091a\u093e\u0932\u0940\u0938', '\u0905\u0920\u091a\u093e\u0932\u0940\u0938', '\u0909\u0928\u092a\u091a\u093e\u0938',
+  '\u092a\u091a\u093e\u0938', '\u090f\u0915\u093e\u0909\u0928\u094d\u0928', '\u092c\u093e\u0909\u0928\u094d\u0928', '\u0924\u094d\u0930\u093f\u092a\u0928\u094d\u0928', '\u091a\u094c\u092a\u0928\u094d\u0928', '\u092a\u091a\u092a\u0928\u094d\u0928', '\u091b\u092a\u0928\u094d\u0928', '\u0938\u0928\u094d\u0924\u093e\u0909\u0928\u094d\u0928', '\u0905\u0920\u093e\u0909\u0928\u094d\u0928', '\u0909\u0928\u0938\u0920\u0940',
+  '\u0938\u093e\u0920\u0940', '\u090f\u0915\u0938\u0920\u0940', '\u092c\u093e\u0938\u0920\u0940', '\u0924\u094d\u0930\u093f\u0938\u0920\u0940', '\u091a\u094c\u0938\u0920\u0940', '\u092a\u0948\u0902\u0938\u0920\u0940', '\u091b\u0948\u0938\u0920\u0940', '\u0938\u0924\u094d\u0938\u0920\u0940', '\u0905\u0920\u0938\u0920\u0940', '\u0909\u0928\u0938\u0924\u094d\u0924\u0930\u0940',
+  '\u0938\u0924\u094d\u0924\u0930\u0940', '\u090f\u0915\u0939\u0924\u094d\u0924\u0930', '\u092c\u0939\u0924\u094d\u0924\u0930', '\u0924\u094d\u0930\u093f\u0939\u0924\u094d\u0924\u0930', '\u091a\u094c\u0939\u0924\u094d\u0924\u0930', '\u092a\u091a\u0939\u0924\u094d\u0924\u0930', '\u091b\u0939\u0924\u094d\u0924\u0930', '\u0938\u0924\u0939\u0924\u094d\u0924\u0930', '\u0905\u0920\u0939\u0924\u094d\u0924\u0930', '\u0909\u0928\u093e\u0938\u0940',
+  '\u0905\u0938\u0940', '\u090f\u0915\u093e\u0938\u0940', '\u092c\u092f\u093e\u0938\u0940', '\u0924\u094d\u0930\u094d\u092f\u093e\u0938\u0940', '\u091a\u094c\u0930\u093e\u0938\u0940', '\u092a\u091a\u093e\u0938\u0940', '\u091b\u092f\u093e\u0938\u0940', '\u0938\u0924\u093e\u0938\u0940', '\u0905\u0920\u093e\u0938\u0940', '\u0909\u0928\u093e\u0928\u094d\u0928\u092c\u094d\u092c\u0947',
+  '\u0928\u092c\u094d\u092c\u0947', '\u090f\u0915\u093e\u0928\u092c\u094d\u092c\u0947', '\u092c\u092f\u093e\u0928\u092c\u094d\u092c\u0947', '\u0924\u094d\u0930\u093f\u092f\u093e\u0928\u092c\u094d\u092c\u0947', '\u091a\u094c\u0930\u093e\u0928\u092c\u094d\u092c\u0947', '\u092a\u0928\u094d\u091a\u093e\u0928\u092c\u094d\u092c\u0947', '\u091b\u092f\u093e\u0928\u092c\u094d\u092c\u0947', '\u0938\u0928\u094d\u0924\u093e\u0928\u092c\u094d\u092c\u0947', '\u0905\u0920\u093e\u0928\u092c\u094d\u092c\u0947', '\u0909\u0928\u0928\u094d\u0938\u092f'
+];
 
-// Preeti encoded equivalents (legacy encoding)
-const onesPreeti = ['', 'Ps', 'b'O', 'tLg', 'rf/', 'kfFr', 'xf', 'xft', 'cf7', 'gf}',
-  'bz', 'P3f/', 'af¦', 'tP¦', 'rf}w', 'kG›', 'xf]¦', 'x¡', 'c7f/', 'pgfOx',
-  'aLx', 'Psfpx', 'aOx', 'tPOx', 'rf}aLx', 'kRrLx', '5AaLx', 'xQfOx', 'c7\AaLx', 'pgGtLx',
-  'tLx', 'PstLx', 'aQtLx', 'tPQtLx', 'rf}tLx', 'k}+tLx', 'ZtLx', 'x}+tLx', 'c7tLx', 'pgrf/Lx',
-  'rf/Lx', 'PsrfnLx', 'aofnLx', 'l¨ofnLx', 'rjfnLx', 'k}+tfnLx', 'ZofnLx', 'xrfnLx', 'c7rfnLx', 'pgkrfx',
-  'krfx', 'Psf}Gg', 'af}Gg', 'l¨kGg', 'rf}kGg', 'krkGg', 'ZkGg', 'xGtf}Gg', 'c7f}Gg', 'pgx7L',
-  'xf7L', 'Psx7L', 'afx7L', 'l¨x7L', 'rf}x7L', 'k}+x7L', 'Z}x7L', 'x¡x7L', 'c7x7L', 'pgxQrL',
-  'xQrL', 'Ps¿Qr', 'a¿Qr', 'l¨¿Qr', 'rf}¿Qr', 'kr¿Qr', 'Z¿Qr', 'xr¿Qr', 'c7¿Qr', 'pgfxL',
-  'cxL', 'PsfxL', 'aofxL', 'l¨ofxL', 'rf}¿fxL', 'krfxL', 'ZofxL', 'xrfxL', 'c7fxL', 'pgfGGA]',
-  'GAA]', 'PsfGGA]', 'aofGGA]', 'l¨ofGGA]', 'rf}¿fGGA]', 'kGrfGGA]', 'ZofGGA]', 'xGtfGGA]', 'c7fGGA]', 'pgGxy'];
+var preetis = [
+  '', 'Ps', "b\'O", 'tLg', 'rf/', 'kfFr', '5', 'xft', 'cf7', 'gf}',
+  'bz', 'P3f/', 'afXb', 'tXb', 'rf}w', 'kGb', 'xf]Xb', 'xb', 'c7f/', 'pgfOx',
+  'aLx', 'PsfOx', 'afOx', 'tPOx', 'rf}aLx', 'kRrLx', '5AaLx', 'xQfOx', 'c7AaLx', 'pgGtLx',
+  'tLx', 'PstLx', 'aQtLx', 'tPQtLx', 'rf}tLx', 'k}FtLx', '5QrLx', 'x}FtLx', 'c7tLx', 'pgrf/Lx',
+  'rf/Lx', 'PsrfnLx', 'aofnLx', 'l8ofnLx', 'rjfnLx', 'k}FtfnLx', '5ofnLx', 'xrfnLx', 'c7rfnLx', 'pgkrfx',
+  'krfx', 'Psf}Gg', 'af}Gg', 'l8kGg', 'rf}kGg', 'krkGg', '5kGg', 'xGtf}Gg', 'c7f}Gg', 'pgx7L',
+  'xf7L', 'Psx7L', 'afx7L', 'l8x7L', 'rf}x7L', 'k}Fx7L', '5}x7L', 'xrx7L', 'c7x7L', 'pgxQrL',
+  'xQrL', 'Ps]Qr', 'a]Qr', 'l8]Qr', 'rf}]Qr', 'kr]Qr', '5]Qr', 'xr]Qr', 'c7]Qr', 'pgfxL',
+  'cxL', 'PsfxL', 'aofxL', 'l8ofxL', 'rf}]fxL', 'krfxL', '5ofxL', 'xrfxL', 'c7fxL', 'pgfGA]',
+  'GAA]', 'PsfGA]', 'aofGA]', 'l8ofGA]', 'rf}]fGA]', 'kGrfGA]', '5ofGA]', 'xGtfGA]', 'c7fGA]', 'pgGxy'
+];
 
-let currency = 'rupees';
+var currency = 'rupees';
+var lastU = '', lastP = '';
 
-function setCurrency(c) {
-  currency = c;
-  document.querySelectorAll('.currency-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('btn-' + c).classList.add('active');
-  convert();
+function toWords(n) {
+  if (n === 0) return { u: '\u0936\u0942\u0928\u094d\u092f', p: 'zGo' };
+  var u = [], p = [];
+  if (n >= 1000000000) { var v = Math.floor(n/1000000000); u.push(ones[v]+' \u0905\u0930\u092c'); p.push(preetis[v]+' c/a'); n%=1000000000; }
+  if (n >= 10000000)   { var v = Math.floor(n/10000000);   u.push(ones[v]+' \u0915\u0930\u094b\u0921'); p.push(preetis[v]+' s/f]8'); n%=10000000; }
+  if (n >= 100000)     { var v = Math.floor(n/100000);     u.push(ones[v]+' \u0932\u093e\u0916'); p.push(preetis[v]+' nfv'); n%=100000; }
+  if (n >= 1000)       { var v = Math.floor(n/1000);       u.push(ones[v]+' \u0939\u091c\u093e\u0930'); p.push(preetis[v]+' xhf/'); n%=1000; }
+  if (n >= 100)        { var v = Math.floor(n/100);        u.push(ones[v]+' \u0938\u092f'); p.push(preetis[v]+' xo'); n%=100; }
+  if (n > 0)           { u.push(ones[n]); p.push(preetis[n]); }
+  return { u: u.join(' '), p: p.join(' ') };
 }
 
-function setExample(n) {
-  document.getElementById('numberInput').value = n;
-  convert();
+function render() {
+  var val = document.getElementById('numberInput').value;
+  var box = document.getElementById('resultBox');
+  if (val === '') { box.innerHTML = '<div class="placeholder">Enter a number above to convert...</div>'; return; }
+  var num = parseInt(val, 10);
+  if (isNaN(num) || num < 0) { box.innerHTML = '<div class="placeholder" style="color:var(--crimson)">Please enter a valid positive number.</div>'; return; }
+  if (num > 9999999999) { box.innerHTML = '<div class="placeholder" style="color:var(--crimson)">Number too large. Max: 999,99,99,999</div>'; return; }
+
+  var r = toWords(num);
+  lastU = r.u; lastP = r.p;
+
+  if (currency === 'rupees') { lastU += ' \u0930\u0941\u092a\u0948\u092f\u093e\u0901'; lastP += ' ?kof+'; }
+  else if (currency === 'paisa') { lastU += ' \u092a\u0948\u0938\u093e'; lastP += ' k}xf'; }
+
+  box.innerHTML =
+    '<div class="res-label">Unicode Devanagari</div>' +
+    '<div class="res-unicode">' + lastU + '</div>' +
+    '<div class="res-label" style="margin-top:10px;">Preeti Font</div>' +
+    '<div class="res-preeti">' + lastP + '</div>' +
+    '<div class="copy-row">' +
+      '<button class="copy-btn" id="copyU">Copy Unicode</button>' +
+      '<button class="copy-btn" id="copyP">Copy Preeti</button>' +
+    '</div>';
+
+  document.getElementById('copyU').onclick = function(){ doCopy(lastU, this); };
+  document.getElementById('copyP').onclick = function(){ doCopy(lastP, this); };
 }
 
-function numberToNepali(n) {
-  if (n === 0) return { unicode: 'शून्य', preeti: 'zGo' };
-  
-  const parts = [];
-  const preetis = [];
-
-  // Arab (100 crore)
-  if (n >= 1000000000) {
-    const arab = Math.floor(n / 1000000000);
-    parts.push(ones[arab] + ' अरब');
-    preetis.push(onesPreeti[arab] + ' c/a');
-    n %= 1000000000;
-  }
-  // Crore
-  if (n >= 10000000) {
-    const crore = Math.floor(n / 10000000);
-    parts.push(ones[crore] + ' करोड');
-    preetis.push(onesPreeti[crore] + ' s/f]8');
-    n %= 10000000;
-  }
-  // Lakh
-  if (n >= 100000) {
-    const lakh = Math.floor(n / 100000);
-    parts.push(ones[lakh] + ' लाख');
-    preetis.push(onesPreeti[lakh] + ' nfv');
-    n %= 100000;
-  }
-  // Hajar
-  if (n >= 1000) {
-    const hajar = Math.floor(n / 1000);
-    parts.push(ones[hajar] + ' हजार');
-    preetis.push(onesPreeti[hajar] + ' xhf/');
-    n %= 1000;
-  }
-  // Saya
-  if (n >= 100) {
-    const saya = Math.floor(n / 100);
-    parts.push(ones[saya] + ' सय');
-    preetis.push(onesPreeti[saya] + ' xo');
-    n %= 100;
-  }
-  // Remaining < 100
-  if (n > 0) {
-    parts.push(ones[n]);
-    preetis.push(onesPreeti[n]);
-  }
-
-  return {
-    unicode: parts.join(' '),
-    preeti: preetis.join(' ')
-  };
-}
-
-function convert() {
-  const input = document.getElementById('numberInput').value.trim();
-  const section = document.getElementById('resultSection');
-
-  if (input === '' || isNaN(input)) {
-    section.innerHTML = '<span class="placeholder-text">Enter a number above...</span>';
-    return;
-  }
-
-  const num = parseInt(input);
-  if (num < 0 || num > 9999999999) {
-    section.innerHTML = '<span class="placeholder-text" style="color:var(--crimson)">Please enter a number between 0 and 999,99,99,999</span>';
-    return;
-  }
-
-  const result = numberToNepali(num);
-
-  let unicodeText = result.unicode;
-  let preetText = result.preeti;
-
-  if (currency === 'rupees') {
-    unicodeText += ' रुपैयाँ';
-    preetText += ' ?kof+';
-  } else if (currency === 'paisa') {
-    unicodeText += ' पैसा';
-    preetText += ' k}xf';
-  }
-
-  section.innerHTML = `
-    <div class="result-label">Unicode Devanagari</div>
-    <div class="result-unicode result-animate">${unicodeText}</div>
-    <div class="divider" style="width:100%; margin: 4px 0;">
-      <div class="divider-line"></div>
-      <div class="divider-gem" style="font-size:10px;">✦</div>
-      <div class="divider-line"></div>
-    </div>
-    <div class="result-label">Preeti Font Encoded</div>
-    <div class="result-preeti result-animate">${preetText}</div>
-    <div style="display:flex; gap:10px; margin-top:8px;">
-      <button class="copy-btn" onclick="copyText('${unicodeText}', this)">Copy Unicode</button>
-      <button class="copy-btn" onclick="copyText('${preetText}', this)">Copy Preeti</button>
-    </div>
-  `;
-}
-
-function copyText(text, btn) {
-  navigator.clipboard.writeText(text).then(() => {
-    const orig = btn.textContent;
-    btn.textContent = '✓ Copied!';
-    btn.classList.add('copied');
-    setTimeout(() => {
-      btn.textContent = orig;
-      btn.classList.remove('copied');
-    }, 2000);
+function doCopy(text, btn) {
+  navigator.clipboard.writeText(text).then(function() {
+    var o = btn.textContent; btn.textContent = '✓ Copied!'; btn.classList.add('copied');
+    setTimeout(function(){ btn.textContent = o; btn.classList.remove('copied'); }, 2000);
   });
 }
 
-// Allow Enter key
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('numberInput').focus();
-});
+window.onload = function() {
+  var inp = document.getElementById('numberInput');
+  inp.addEventListener('input', render);
+  inp.addEventListener('keyup', render);
+
+  document.getElementById('btn-rupees').onclick = function() { currency='rupees'; setActive(this); render(); };
+  document.getElementById('btn-paisa').onclick  = function() { currency='paisa';  setActive(this); render(); };
+  document.getElementById('btn-none').onclick   = function() { currency='none';   setActive(this); render(); };
+
+  document.querySelectorAll('.chip').forEach(function(c) {
+    c.onclick = function() { inp.value = this.getAttribute('data-val'); render(); };
+  });
+};
+
+function setActive(btn) {
+  document.querySelectorAll('.currency-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+}
 </script>
 </body>
 </html>
