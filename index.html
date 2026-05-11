@@ -1,144 +1,656 @@
 <!DOCTYPE html>
-<html lang="ne">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Number to Nepali Words</title>
+<title>English → Nepali Converter</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --crimson: #C0392B;
-    --gold: #D4A017;
-    --dark: #1A0A00;
-    --paper: #FDF6E3;
-    --paper2: #F5ECD0;
-    --ink: #2C1810;
-    --border: #8B6914;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    background: var(--dark);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    padding: 20px;
-    background-image: 
-      radial-gradient(ellipse at 20% 50%, rgba(192,57,43,0.15) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 20%, rgba(212,160,23,0.1) 0%, transparent 40%);
-  }
-  .container {
-    background: var(--paper);
-    border-radius: 4px;
-    padding: 40px 44px;
-    max-width: 660px;
-    width: 100%;
-    box-shadow: 0 0 0 1px var(--border), 0 0 0 4px var(--paper2), 0 0 0 5px var(--border), 0 20px 60px rgba(0,0,0,0.6);
-    position: relative;
-  }
-  .container::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; height: 5px;
-    background: linear-gradient(90deg, var(--crimson), var(--gold), var(--crimson));
-    border-radius: 4px 4px 0 0;
-  }
-  .header { text-align: center; margin-bottom: 28px; }
-  .subtitle { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
-  h1 { font-size: 24px; color: var(--ink); font-weight: 600; margin-bottom: 4px; }
-  .nepali-title { font-size: 20px; color: var(--crimson); }
-  .divider { display: flex; align-items: center; gap: 10px; margin: 16px 0; }
-  .dl { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); }
-  .dg { color: var(--gold); font-size: 12px; }
-  label { display: block; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--border); margin-bottom: 10px; }
-  #numberInput {
-    width: 100%; padding: 14px 16px; font-size: 32px;
-    border: 1px solid var(--border); border-radius: 2px;
-    background: white; color: var(--ink); text-align: center; outline: none;
-    font-family: Georgia, serif;
-    -moz-appearance: textfield;
-  }
-  #numberInput::-webkit-inner-spin-button, #numberInput::-webkit-outer-spin-button { -webkit-appearance: none; }
-  #numberInput:focus { border-color: var(--crimson); box-shadow: 0 0 0 3px rgba(192,57,43,0.12); }
-  .currency-toggle { display: flex; gap: 8px; margin-top: 12px; justify-content: center; flex-wrap: wrap; }
-  .currency-btn {
-    padding: 7px 18px; border: 1px solid var(--border); border-radius: 2px;
-    background: transparent; color: var(--ink); cursor: pointer; font-size: 13px; transition: all 0.2s;
-  }
-  .currency-btn.active { background: var(--crimson); border-color: var(--crimson); color: white; }
-  .currency-btn:hover:not(.active) { background: var(--paper2); border-color: var(--crimson); }
-  .result-box {
-    background: white; border: 1px solid var(--border); border-radius: 2px;
-    padding: 24px 20px; min-height: 100px; text-align: center; position: relative;
-  }
-  .result-box::after {
-    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
-    background: linear-gradient(90deg, var(--crimson), var(--gold), var(--crimson));
-  }
-  .res-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #aaa; margin-bottom: 6px; }
-  .res-unicode { font-size: 26px; color: var(--ink); line-height: 1.5; margin-bottom: 14px; }
-  .res-preeti { font-size: 22px; color: var(--crimson); line-height: 1.5; margin-bottom: 14px; word-break: break-word; }
-  .placeholder { color: #bbb; font-style: italic; font-size: 15px; padding: 14px 0; }
-  .copy-row { display: flex; gap: 8px; justify-content: center; margin-top: 10px; }
-  .copy-btn {
-    padding: 7px 16px; background: transparent; border: 1px solid var(--border);
-    border-radius: 2px; color: var(--border); cursor: pointer; font-size: 11px;
-    letter-spacing: 1px; transition: all 0.2s;
-  }
-  .copy-btn:hover { background: var(--gold); border-color: var(--gold); color: white; }
-  .copy-btn.copied { background: #27ae60; border-color: #27ae60; color: white; }
-  .examples { margin-top: 20px; text-align: center; }
-  .ex-title { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--border); margin-bottom: 10px; }
-  .chips { display: flex; flex-wrap: wrap; gap: 7px; justify-content: center; }
-  .chip {
-    padding: 5px 13px; border: 1px solid var(--border); border-radius: 20px;
-    font-size: 13px; color: var(--ink); cursor: pointer; background: transparent; transition: all 0.2s;
-  }
-  .chip:hover { background: var(--crimson); border-color: var(--crimson); color: white; }
+:root {
+  --bg: #0f0d0b;
+  --bg2: #161310;
+  --card: #1c1814;
+  --card2: #231f1a;
+  --border: #2e2820;
+  --border2: #3d3530;
+  --gold: #c9973a;
+  --gold2: #e8b84b;
+  --gold-dim: #7a5a1e;
+  --red: #c0392b;
+  --text: #f0e8dc;
+  --text2: #b8a898;
+  --text3: #7a6e62;
+  --green: #4a9e6e;
+  --green-light: #1e3d2a;
+  --radius: 12px;
+  --radius-lg: 18px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Crimson Pro', Georgia, serif;
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse at 15% 0%, rgba(201,151,58,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 100%, rgba(192,57,43,0.06) 0%, transparent 45%);
+}
+
+/* ── Header ── */
+header {
+  border-bottom: 1px solid var(--border);
+  padding: 1.25rem 2rem;
+  display: flex; align-items: center; gap: 14px;
+  background: rgba(15,13,11,0.95);
+  backdrop-filter: blur(12px);
+  position: sticky; top: 0; z-index: 50;
+}
+.logo {
+  width: 38px; height: 38px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--gold), var(--red));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.header-text h1 { font-size: 17px; font-weight: 600; color: var(--text); letter-spacing: -0.01em; }
+.header-text p  { font-size: 13px; color: var(--text3); font-style: italic; margin-top: 1px; }
+.header-line { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+.lang-badge {
+  padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;
+  font-family: 'JetBrains Mono', monospace; letter-spacing: 0.03em;
+}
+.lang-en { background: rgba(201,151,58,0.15); color: var(--gold2); border: 1px solid var(--gold-dim); }
+.lang-arrow { color: var(--text3); font-size: 14px; }
+.lang-ne { background: rgba(192,57,43,0.15); color: #e07060; border: 1px solid #6a2020; }
+
+/* ── Main layout ── */
+main { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+
+/* ── Mode tabs ── */
+.mode-tabs {
+  display: flex; gap: 4px; background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 5px; margin-bottom: 2rem;
+}
+.mode-tab {
+  flex: 1; padding: 10px 16px; border: none; border-radius: 12px;
+  font-family: 'Crimson Pro', serif; font-size: 15px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; color: var(--text3); background: transparent;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.mode-tab .tab-icon { font-size: 16px; }
+.mode-tab.active { background: var(--card2); color: var(--text); border: 1px solid var(--border2); box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+.mode-tab:hover:not(.active) { color: var(--text2); }
+
+/* ── Panel ── */
+.panel { display: none; animation: fadeUp 0.3s ease both; }
+.panel.active { display: block; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+/* ── Translator / Transliterator shared ── */
+.converter-wrap {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start;
+}
+.conv-box {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); overflow: hidden;
+}
+.conv-box-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px; border-bottom: 1px solid var(--border);
+  background: var(--card2);
+}
+.conv-lang { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; font-family: 'JetBrains Mono', monospace; }
+.conv-lang.en { color: var(--gold2); }
+.conv-lang.ne { color: #e07060; }
+.conv-box-actions { display: flex; gap: 6px; }
+.icon-btn {
+  width: 28px; height: 28px; border-radius: 7px; border: 1px solid var(--border2);
+  background: transparent; color: var(--text3); cursor: pointer; font-size: 13px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.icon-btn:hover { background: var(--border2); color: var(--text); }
+.icon-btn.copied { background: var(--green-light); color: var(--green); border-color: var(--green); }
+
+textarea {
+  width: 100%; min-height: 200px; padding: 16px;
+  background: transparent; border: none; outline: none; resize: vertical;
+  font-family: 'Crimson Pro', serif; font-size: 20px; color: var(--text);
+  line-height: 1.6;
+}
+textarea::placeholder { color: var(--text3); font-style: italic; }
+textarea:disabled { cursor: default; }
+
+.output-area {
+  min-height: 200px; padding: 16px;
+  font-size: 22px; line-height: 1.7; color: var(--text);
+  font-family: 'Noto Sans Devanagari', 'Mangal', serif;
+}
+.output-area.placeholder { color: var(--text3); font-family: 'Crimson Pro', serif; font-style: italic; font-size: 16px; }
+.output-preeti {
+  padding: 12px 16px; border-top: 1px solid var(--border);
+  font-size: 16px; color: var(--gold); font-family: Preeti, monospace;
+  background: rgba(201,151,58,0.04);
+}
+.output-preeti-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; font-family: 'JetBrains Mono', monospace; margin-bottom: 4px; }
+
+/* ── Translate button ── */
+.translate-btn {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; padding: 13px; margin-top: 14px;
+  background: linear-gradient(135deg, var(--gold), #a07020);
+  border: none; border-radius: var(--radius); cursor: pointer;
+  font-family: 'Crimson Pro', serif; font-size: 16px; font-weight: 600;
+  color: #0f0d0b; transition: all 0.2s; letter-spacing: 0.01em;
+}
+.translate-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.translate-btn:active { transform: translateY(0); }
+.translate-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.translate-btn .btn-spinner {
+  width: 16px; height: 16px; border: 2px solid rgba(15,13,11,0.3);
+  border-top-color: #0f0d0b; border-radius: 50%; animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Number panel ── */
+.num-wrap { max-width: 600px; margin: 0 auto; }
+.num-input-box {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: 20px; margin-bottom: 16px;
+}
+.num-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; font-family: 'JetBrains Mono', monospace; margin-bottom: 10px; }
+#numberInput {
+  width: 100%; padding: 14px 16px; font-size: 36px;
+  background: var(--card2); border: 1px solid var(--border2); border-radius: var(--radius);
+  color: var(--text); font-family: 'JetBrains Mono', monospace; text-align: center;
+  outline: none; -moz-appearance: textfield; transition: border-color 0.2s;
+}
+#numberInput:focus { border-color: var(--gold-dim); box-shadow: 0 0 0 3px rgba(201,151,58,0.1); }
+#numberInput::-webkit-inner-spin-button, #numberInput::-webkit-outer-spin-button { -webkit-appearance: none; }
+.currency-row { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+.cur-btn {
+  padding: 7px 16px; border: 1px solid var(--border2); border-radius: 20px;
+  background: transparent; color: var(--text3); cursor: pointer;
+  font-family: 'Crimson Pro', serif; font-size: 14px; transition: all 0.15s;
+}
+.cur-btn.active { background: var(--gold-dim); border-color: var(--gold); color: var(--gold2); }
+.cur-btn:hover:not(.active) { border-color: var(--border2); color: var(--text2); }
+
+.num-result {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.num-result-row {
+  padding: 16px 20px; border-bottom: 1px solid var(--border);
+}
+.num-result-row:last-child { border-bottom: none; }
+.nrr-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; font-family: 'JetBrains Mono', monospace; margin-bottom: 6px; }
+.nrr-value { font-size: 26px; line-height: 1.5; color: var(--text); font-family: 'Noto Sans Devanagari', serif; }
+.nrr-value.preeti { font-family: Preeti, monospace; color: var(--gold2); font-size: 22px; }
+.nrr-value.placeholder { color: var(--text3); font-family: 'Crimson Pro', serif; font-style: italic; font-size: 16px; }
+
+.copy-row { display: flex; gap: 8px; padding: 12px 20px; background: var(--card2); }
+.copy-small {
+  padding: 6px 14px; border: 1px solid var(--border2); border-radius: 8px;
+  background: transparent; color: var(--text3); cursor: pointer;
+  font-size: 12px; font-family: 'JetBrains Mono', monospace; transition: all 0.15s;
+}
+.copy-small:hover { background: var(--border2); color: var(--text); }
+.copy-small.copied { background: var(--green-light); color: var(--green); border-color: var(--green); }
+
+.example-nums { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 14px; }
+.enum {
+  padding: 5px 13px; border: 1px solid var(--border2); border-radius: 20px;
+  font-size: 13px; color: var(--text3); cursor: pointer; background: transparent;
+  font-family: 'JetBrains Mono', monospace; transition: all 0.15s;
+}
+.enum:hover { border-color: var(--gold-dim); color: var(--gold2); }
+
+/* ── Status/error ── */
+.status-bar {
+  display: flex; align-items: center; gap: 8px; padding: 10px 14px;
+  border-radius: var(--radius); font-size: 13px; margin-top: 10px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.status-bar.info  { background: rgba(201,151,58,0.08); color: var(--gold); border: 1px solid var(--gold-dim); }
+.status-bar.error { background: rgba(192,57,43,0.1); color: #e07060; border: 1px solid #6a2020; }
+.status-bar.ok    { background: var(--green-light); color: var(--green); border: 1px solid #2a6040; }
+
+/* ── Transliteration hint ── */
+.translit-hint {
+  margin-top: 12px; padding: 10px 14px; background: var(--card2);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  font-size: 12.5px; color: var(--text3); line-height: 1.7;
+}
+.translit-hint strong { color: var(--text2); }
+.hint-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 4px 16px; margin-top: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; }
+.hint-item { color: var(--text3); }
+.hint-item span { color: var(--gold); }
+
+@media (max-width: 640px) {
+  main { padding: 1.5rem 1rem 3rem; }
+  .converter-wrap { grid-template-columns: 1fr; }
+  .mode-tab .tab-label { display: none; }
+}
 </style>
 </head>
 <body>
-<div class="container">
-  <div class="header">
-    <div class="subtitle">Nepali Currency Converter</div>
-    <h1>Number to Nepali Words</h1>
-    <div class="nepali-title">&#2309;&#2306;&#2325;&#2354;&#2366;&#2311; &#2344;&#2375;&#2346;&#2366;&#2354;&#2368; &#2358;&#2348;&#2381;&#2342;&#2350;&#2366;</div>
+
+<header>
+  <div class="logo">🇳🇵</div>
+  <div class="header-text">
+    <h1>English → Nepali</h1>
+    <p>Translate · Transliterate · Number to Words</p>
+  </div>
+  <div class="header-line">
+    <span class="lang-badge lang-en">EN</span>
+    <span class="lang-arrow">→</span>
+    <span class="lang-badge lang-ne">NE</span>
+  </div>
+</header>
+
+<main>
+  <!-- Mode tabs -->
+  <div class="mode-tabs">
+    <button class="mode-tab active" onclick="switchTab('translate')" id="tab-translate">
+      <span class="tab-icon">🌐</span><span class="tab-label">Translation</span>
+    </button>
+    <button class="mode-tab" onclick="switchTab('translit')" id="tab-translit">
+      <span class="tab-icon">⌨️</span><span class="tab-label">Transliteration</span>
+    </button>
+    <button class="mode-tab" onclick="switchTab('number')" id="tab-number">
+      <span class="tab-icon">🔢</span><span class="tab-label">Number to Words</span>
+    </button>
   </div>
 
-  <div class="divider"><div class="dl"></div><div class="dg">&#10022;</div><div class="dl"></div></div>
-
-  <label>Enter Number &#8212; &#2360;&#2306;&#2326;&#2381;&#2351;&#2366; &#2354;&#2375;&#2326;&#2381;&#2344;&#2369;&#2361;&#2379;&#2360;&#2381;</label>
-  <input type="number" id="numberInput" placeholder="1500" min="0" />
-
-  <div class="currency-toggle">
-    <button class="currency-btn active" id="btn-rupees">&#2352;&#2369;&#2346;&#2376;&#2351;&#2366;&#2901; (Rupees)</button>
-    <button class="currency-btn" id="btn-paisa">&#2346;&#2376;&#2360;&#2366; (Paisa)</button>
-    <button class="currency-btn" id="btn-none">Words Only</button>
+  <!-- ══ TRANSLATION PANEL ══ -->
+  <div class="panel active" id="panel-translate">
+    <div class="converter-wrap">
+      <div class="conv-box">
+        <div class="conv-box-header">
+          <span class="conv-lang en">English</span>
+          <div class="conv-box-actions">
+            <button class="icon-btn" title="Clear" onclick="clearTranslate()">✕</button>
+          </div>
+        </div>
+        <textarea id="translateInput" placeholder="Type or paste English text here…" rows="8"></textarea>
+      </div>
+      <div class="conv-box">
+        <div class="conv-box-header">
+          <span class="conv-lang ne">नेपाली</span>
+          <div class="conv-box-actions">
+            <button class="icon-btn" title="Copy" id="copyTranslate" onclick="copyOutput('translateOutput','copyTranslate')">⎘</button>
+          </div>
+        </div>
+        <div id="translateOutput" class="output-area placeholder">Translation will appear here…</div>
+        <div id="translatePreeti" class="output-preeti" style="display:none">
+          <div class="output-preeti-label">Preeti Encoded</div>
+          <div id="translatePreetiText"></div>
+        </div>
+      </div>
+    </div>
+    <button class="translate-btn" id="translateBtn" onclick="doTranslate()">
+      <span id="translateBtnInner">🌐 Translate to Nepali</span>
+    </button>
+    <div id="translateStatus"></div>
   </div>
 
-  <div class="divider" style="margin-top:20px;"><div class="dl"></div><div class="dg">&#10022;</div><div class="dl"></div></div>
-
-  <div class="result-box" id="resultBox">
-    <div class="placeholder">Enter a number above to convert...</div>
-  </div>
-
-  <div class="examples">
-    <div class="ex-title">Quick Examples</div>
-    <div class="chips">
-      <button class="chip" data-val="1">1</button>
-      <button class="chip" data-val="10">10</button>
-      <button class="chip" data-val="25">25</button>
-      <button class="chip" data-val="100">100</button>
-      <button class="chip" data-val="1500">1,500</button>
-      <button class="chip" data-val="50000">50,000</button>
-      <button class="chip" data-val="100000">1,00,000</button>
-      <button class="chip" data-val="2500000">25,00,000</button>
+  <!-- ══ TRANSLITERATION PANEL ══ -->
+  <div class="panel" id="panel-translit">
+    <div class="converter-wrap">
+      <div class="conv-box">
+        <div class="conv-box-header">
+          <span class="conv-lang en">Roman / English</span>
+          <div class="conv-box-actions">
+            <button class="icon-btn" title="Clear" onclick="clearTranslit()">✕</button>
+          </div>
+        </div>
+        <textarea id="translitInput" placeholder="namaste… (type Roman Nepali)" rows="8" oninput="doTranslit()"></textarea>
+      </div>
+      <div class="conv-box">
+        <div class="conv-box-header">
+          <span class="conv-lang ne">देवनागरी</span>
+          <div class="conv-box-actions">
+            <button class="icon-btn" title="Copy Unicode" id="copyTranslit" onclick="copyOutput('translitOutput','copyTranslit')">⎘</button>
+          </div>
+        </div>
+        <div id="translitOutput" class="output-area placeholder">Devanagari will appear as you type…</div>
+        <div id="translitPreeti" class="output-preeti" style="display:none">
+          <div class="output-preeti-label">Preeti Encoded</div>
+          <div id="translitPreetiText"></div>
+        </div>
+      </div>
+    </div>
+    <div class="translit-hint">
+      <strong>Typing guide:</strong> Type Roman Nepali phonetically. Examples:
+      <div class="hint-grid">
+        <span class="hint-item">namaste → <span>नमस्ते</span></span>
+        <span class="hint-item">nepal → <span>नेपाल</span></span>
+        <span class="hint-item">kathmandu → <span>काठमाण्डु</span></span>
+        <span class="hint-item">dhanyabad → <span>धन्यवाद</span></span>
+        <span class="hint-item">kasto cha → <span>कस्तो छ</span></span>
+        <span class="hint-item">ramro → <span>राम्रो</span></span>
+        <span class="hint-item">paani → <span>पानी</span></span>
+        <span class="hint-item">bhaaat → <span>भात</span></span>
+      </div>
     </div>
   </div>
-</div>
+
+  <!-- ══ NUMBER PANEL ══ -->
+  <div class="panel" id="panel-number">
+    <div class="num-wrap">
+      <div class="num-input-box">
+        <div class="num-label">Enter Number</div>
+        <input type="number" id="numberInput" placeholder="e.g. 1500" min="0" />
+        <div class="currency-row">
+          <button class="cur-btn active" id="cur-rupees" onclick="setCur('rupees')">रुपैयाँ (Rupees)</button>
+          <button class="cur-btn" id="cur-paisa" onclick="setCur('paisa')">पैसा (Paisa)</button>
+          <button class="cur-btn" id="cur-none" onclick="setCur('none')">Words only</button>
+        </div>
+        <div class="example-nums">
+          <span class="num-label" style="margin:0;line-height:2">Try:</span>
+          <button class="enum" onclick="setNum(1)">1</button>
+          <button class="enum" onclick="setNum(25)">25</button>
+          <button class="enum" onclick="setNum(100)">100</button>
+          <button class="enum" onclick="setNum(1500)">1,500</button>
+          <button class="enum" onclick="setNum(50000)">50,000</button>
+          <button class="enum" onclick="setNum(100000)">1,00,000</button>
+          <button class="enum" onclick="setNum(2500000)">25,00,000</button>
+        </div>
+      </div>
+
+      <div class="num-result" id="numResult">
+        <div class="num-result-row">
+          <div class="nrr-label">Nepali Words (Unicode)</div>
+          <div class="nrr-value placeholder" id="numUnicode">Enter a number above…</div>
+        </div>
+        <div class="num-result-row">
+          <div class="nrr-label">Preeti Font</div>
+          <div class="nrr-value preeti placeholder" id="numPreeti" style="font-family:'Crimson Pro',serif;color:var(--text3);font-size:16px;font-style:italic">Preeti output will appear here…</div>
+        </div>
+        <div class="copy-row">
+          <button class="copy-small" id="cnU" onclick="copySmall('numUnicode','cnU')">Copy Unicode</button>
+          <button class="copy-small" id="cnP" onclick="copySmall('numPreeti','cnP')">Copy Preeti</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
 
 <script>
+// ════════════════════════════════════════════════════════
+// TAB SWITCHING
+// ════════════════════════════════════════════════════════
+function switchTab(name) {
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.mode-tab').forEach(function(t){ t.classList.remove('active'); });
+  document.getElementById('panel-' + name).classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+// ════════════════════════════════════════════════════════
+// TRANSLATION (Claude API)
+// ════════════════════════════════════════════════════════
+async function doTranslate() {
+  var input = document.getElementById('translateInput').value.trim();
+  if (!input) return;
+
+  var btn = document.getElementById('translateBtn');
+  var inner = document.getElementById('translateBtnInner');
+  var out = document.getElementById('translateOutput');
+  var status = document.getElementById('translateStatus');
+
+  btn.disabled = true;
+  inner.innerHTML = '<div class="btn-spinner"></div> Translating…';
+  out.className = 'output-area placeholder';
+  out.textContent = 'Translating…';
+  status.innerHTML = '';
+  document.getElementById('translatePreeti').style.display = 'none';
+
+  try {
+    var response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{
+          role: 'user',
+          content: 'Translate the following English text to Nepali (Devanagari script). ' +
+                   'Return ONLY a JSON object with two fields: "nepali" (the Nepali Unicode translation) and "preeti" (the same text encoded in Preeti font ASCII mapping). ' +
+                   'No explanation, no markdown, just the raw JSON.\n\nText to translate:\n' + input
+        }]
+      })
+    });
+
+    var data = await response.json();
+    if (data.error) throw new Error(data.error.message || 'API error');
+
+    var raw = data.content.filter(function(b){ return b.type === 'text'; }).map(function(b){ return b.text; }).join('');
+    var clean = raw.replace(/```json|```/g, '').trim();
+    var parsed = JSON.parse(clean);
+
+    out.className = 'output-area';
+    out.textContent = parsed.nepali || raw;
+
+    if (parsed.preeti) {
+      document.getElementById('translatePreetiText').textContent = parsed.preeti;
+      document.getElementById('translatePreeti').style.display = 'block';
+    }
+
+    status.innerHTML = '<div class="status-bar ok">✓ Translation complete</div>';
+  } catch (err) {
+    out.className = 'output-area placeholder';
+    out.textContent = 'Translation failed. Please try again.';
+    status.innerHTML = '<div class="status-bar error">⚠ ' + (err.message || 'Unknown error') + '</div>';
+  } finally {
+    btn.disabled = false;
+    inner.innerHTML = '🌐 Translate to Nepali';
+  }
+}
+
+function clearTranslate() {
+  document.getElementById('translateInput').value = '';
+  var out = document.getElementById('translateOutput');
+  out.className = 'output-area placeholder';
+  out.textContent = 'Translation will appear here…';
+  document.getElementById('translatePreeti').style.display = 'none';
+  document.getElementById('translateStatus').innerHTML = '';
+}
+
+// ════════════════════════════════════════════════════════
+// TRANSLITERATION (Roman → Devanagari)
+// ════════════════════════════════════════════════════════
+// Comprehensive Roman Nepali → Unicode Devanagari mapping
+var TRANSLIT_MAP = [
+  // Consonant clusters / digraphs (must come before singles)
+  ['ksh','क्ष'],['gya','ज्ञ'],['jnya','ज्ञ'],
+  ['chh','छ'],['Ch','छ'],['ch','च'],
+  ['sh','श'],['Sh','ष'],['sh','श'],
+  ['ph','फ'],['bh','भ'],['dh','ध'],['Dh','ढ'],
+  ['gh','घ'],['jh','झ'],['kh','ख'],['th','थ'],['Th','ठ'],
+  ['nh','ञ'],['ng','ङ'],
+  // Vowels (standalone)
+  ['aa','आ'],['ii','ई'],['uu','ऊ'],['ee','ई'],['oo','ऊ'],
+  ['ai','ऐ'],['au','औ'],['ae','ऐ'],['oi','ओइ'],
+  ['A','आ'],['I','ई'],['U','ऊ'],['E','ए'],['O','ओ'],
+  ['a','अ'],['i','इ'],['u','उ'],['e','ए'],['o','ओ'],
+  // Consonants
+  ['k','क'],['K','क'],['g','ग'],['G','ग'],['c','क'],
+  ['j','ज'],['J','ज'],['z','ज'],['Z','ज'],
+  ['t','त'],['T','ट'],['d','द'],['D','ड'],
+  ['n','न'],['N','ण'],['m','म'],['M','म'],
+  ['p','प'],['b','ब'],['f','फ'],['v','व'],['w','व'],
+  ['r','र'],['R','र'],['l','ल'],['L','ल'],
+  ['s','स'],['S','स'],['h','ह'],['H','ह'],
+  ['y','य'],['Y','य'],['q','क'],['x','क्स'],
+  // Numbers
+  ['0','०'],['1','१'],['2','२'],['3','३'],['4','४'],
+  ['5','५'],['6','६'],['7','७'],['8','८'],['9','९'],
+  // Punctuation
+  ['।','।'],['.','।'],
+];
+
+// Vowel diacritic marks (मात्राहरू) — used after consonants
+var VOWEL_DIACRITICS = {
+  'अ': '',   // inherent 'a' — no mark needed
+  'आ': 'ा',
+  'इ': 'ि',
+  'ई': 'ी',
+  'उ': 'ु',
+  'ऊ': 'ू',
+  'ए': 'े',
+  'ऐ': 'ै',
+  'ओ': 'ो',
+  'औ': 'ौ',
+};
+
+var VOWELS_SET = new Set(['अ','आ','इ','ई','उ','ऊ','ए','ऐ','ओ','औ']);
+var CONSONANTS_SET = new Set(['क','ख','ग','घ','ङ','च','छ','ज','झ','ञ','ट','ठ','ड','ढ','ण','त','थ','द','ध','न','प','फ','ब','भ','म','य','र','ल','व','श','ष','स','ह','क्ष','ज्ञ','त्र']);
+
+function romanToDevanagari(text) {
+  if (!text) return '';
+  var result = '';
+  var i = 0;
+  var len = text.length;
+  var prevWasConsonant = false;
+  var prevConsonant = '';
+
+  while (i < len) {
+    // Handle space — reset consonant tracking
+    if (text[i] === ' ') {
+      if (prevWasConsonant && prevConsonant) {
+        result += prevConsonant + 'अ';
+        prevConsonant = '';
+      }
+      result += ' ';
+      prevWasConsonant = false;
+      i++;
+      continue;
+    }
+
+    // Try to match longest rule first
+    var matched = false;
+    for (var ri = 0; ri < TRANSLIT_MAP.length; ri++) {
+      var rule = TRANSLIT_MAP[ri];
+      var from = rule[0];
+      var to = rule[1];
+      if (text.substr(i, from.length).toLowerCase() === from.toLowerCase() &&
+          text.substr(i, from.length) === from.replace(/./g, function(c,j){ return text[i+j] !== undefined ? text[i+j] : c; })) {
+        // exact case match
+        if (text.substr(i, from.length) === from) {
+          var isVowel = VOWELS_SET.has(to);
+          var isConsonant = CONSONANTS_SET.has(to);
+
+          if (isConsonant) {
+            if (prevWasConsonant && prevConsonant) {
+              // Two consonants in a row — add halanta to first
+              result += prevConsonant + '्';
+              prevConsonant = to;
+            } else {
+              if (prevWasConsonant && !prevConsonant) {
+                // was in middle of building
+              }
+              prevConsonant = to;
+            }
+            prevWasConsonant = true;
+          } else if (isVowel) {
+            if (prevWasConsonant && prevConsonant) {
+              var diacritic = VOWEL_DIACRITICS[to];
+              if (to === 'अ') {
+                result += prevConsonant; // inherent 'a'
+              } else {
+                result += prevConsonant + (diacritic || to);
+              }
+              prevConsonant = '';
+              prevWasConsonant = false;
+            } else {
+              result += to;
+            }
+          } else {
+            // digit or punctuation
+            if (prevWasConsonant && prevConsonant) {
+              result += prevConsonant + 'अ';
+              prevConsonant = '';
+              prevWasConsonant = false;
+            }
+            result += to;
+          }
+          i += from.length;
+          matched = true;
+          break;
+        }
+      }
+    }
+
+    if (!matched) {
+      if (prevWasConsonant && prevConsonant) {
+        result += prevConsonant + 'अ';
+        prevConsonant = '';
+        prevWasConsonant = false;
+      }
+      result += text[i];
+      i++;
+    }
+  }
+
+  // Flush remaining consonant
+  if (prevWasConsonant && prevConsonant) {
+    result += prevConsonant + 'अ';
+  }
+
+  return result;
+}
+
+// Better approach: use the Claude API for transliteration too (more accurate)
+async function doTranslitAPI() {
+  var input = document.getElementById('translitInput').value.trim();
+  var out = document.getElementById('translitOutput');
+  if (!input) {
+    out.className = 'output-area placeholder';
+    out.textContent = 'Devanagari will appear as you type…';
+    document.getElementById('translitPreeti').style.display = 'none';
+    return;
+  }
+
+  // For short instant feel, first apply local rules, then optionally refine via API
+  var localResult = romanToDevanagari(input);
+  out.className = 'output-area';
+  out.textContent = localResult || input;
+  document.getElementById('translitPreetiText').textContent = unicodeToPreetiBasic(localResult);
+  document.getElementById('translitPreeti').style.display = 'block';
+}
+
+var translitTimer = null;
+function doTranslit() {
+  clearTimeout(translitTimer);
+  var input = document.getElementById('translitInput').value.trim();
+  var out = document.getElementById('translitOutput');
+  if (!input) {
+    out.className = 'output-area placeholder';
+    out.textContent = 'Devanagari will appear as you type…';
+    document.getElementById('translitPreeti').style.display = 'none';
+    return;
+  }
+  // Instant local conversion
+  var result = romanToDevanagari(input);
+  out.className = 'output-area';
+  out.textContent = result;
+  document.getElementById('translitPreetiText').textContent = unicodeToPreetiBasic(result);
+  document.getElementById('translitPreeti').style.display = 'block';
+}
+
+function clearTranslit() {
+  document.getElementById('translitInput').value = '';
+  var out = document.getElementById('translitOutput');
+  out.className = 'output-area placeholder';
+  out.textContent = 'Devanagari will appear as you type…';
+  document.getElementById('translitPreeti').style.display = 'none';
+}
+
+// ════════════════════════════════════════════════════════
+// NUMBER TO NEPALI WORDS
+// ════════════════════════════════════════════════════════
 var ones = [
   '', '\u090f\u0915', '\u0926\u0941\u0908', '\u0924\u0940\u0928', '\u091a\u093e\u0930', '\u092a\u093e\u0901\u091a', '\u091b', '\u0938\u093e\u0924', '\u0906\u0920', '\u0928\u094c',
   '\u0926\u0936', '\u090f\u0918\u093e\u0930', '\u092c\u093e\u0939\u094d\u0930', '\u0924\u0947\u0939\u094d\u0930', '\u091a\u094c\u0927', '\u092a\u0928\u094d\u0927\u094d\u0930', '\u0938\u094b\u0939\u094d\u0930', '\u0938\u0924\u094d\u0930', '\u0905\u0920\u093e\u0930', '\u0909\u0928\u094d\u0928\u093e\u0907\u0938',
@@ -151,88 +663,134 @@ var ones = [
   '\u0905\u0938\u0940', '\u090f\u0915\u093e\u0938\u0940', '\u092c\u092f\u093e\u0938\u0940', '\u0924\u094d\u0930\u094d\u092f\u093e\u0938\u0940', '\u091a\u094c\u0930\u093e\u0938\u0940', '\u092a\u091a\u093e\u0938\u0940', '\u091b\u092f\u093e\u0938\u0940', '\u0938\u0924\u093e\u0938\u0940', '\u0905\u0920\u093e\u0938\u0940', '\u0909\u0928\u093e\u0928\u094d\u0928\u092c\u094d\u092c\u0947',
   '\u0928\u092c\u094d\u092c\u0947', '\u090f\u0915\u093e\u0928\u092c\u094d\u092c\u0947', '\u092c\u092f\u093e\u0928\u092c\u094d\u092c\u0947', '\u0924\u094d\u0930\u093f\u092f\u093e\u0928\u092c\u094d\u092c\u0947', '\u091a\u094c\u0930\u093e\u0928\u092c\u094d\u092c\u0947', '\u092a\u0928\u094d\u091a\u093e\u0928\u092c\u094d\u092c\u0947', '\u091b\u092f\u093e\u0928\u092c\u094d\u092c\u0947', '\u0938\u0928\u094d\u0924\u093e\u0928\u092c\u094d\u092c\u0947', '\u0905\u0920\u093e\u0928\u092c\u094d\u092c\u0947', '\u0909\u0928\u0928\u094d\u0938\u092f'
 ];
-
 var preetis = [
-  '', 'Ps', "b\'O", 'tLg', 'rf/', 'kfFr', '5', 'xft', 'cf7', 'gf}',
-  'bz', 'P3f/', 'afXb', 'tXb', 'rf}w', 'kGb', 'xf]Xb', 'xb', 'c7f/', 'pgfOx',
-  'aLx', 'PsfOx', 'afOx', 'tPOx', 'rf}aLx', 'kRrLx', '5AaLx', 'xQfOx', 'c7AaLx', 'pgGtLx',
-  'tLx', 'PstLx', 'aQtLx', 'tPQtLx', 'rf}tLx', 'k}FtLx', '5QrLx', 'x}FtLx', 'c7tLx', 'pgrf/Lx',
-  'rf/Lx', 'PsrfnLx', 'aofnLx', 'l8ofnLx', 'rjfnLx', 'k}FtfnLx', '5ofnLx', 'xrfnLx', 'c7rfnLx', 'pgkrfx',
-  'krfx', 'Psf}Gg', 'af}Gg', 'l8kGg', 'rf}kGg', 'krkGg', '5kGg', 'xGtf}Gg', 'c7f}Gg', 'pgx7L',
-  'xf7L', 'Psx7L', 'afx7L', 'l8x7L', 'rf}x7L', 'k}Fx7L', '5}x7L', 'xrx7L', 'c7x7L', 'pgxQrL',
-  'xQrL', 'Ps]Qr', 'a]Qr', 'l8]Qr', 'rf}]Qr', 'kr]Qr', '5]Qr', 'xr]Qr', 'c7]Qr', 'pgfxL',
-  'cxL', 'PsfxL', 'aofxL', 'l8ofxL', 'rf}]fxL', 'krfxL', '5ofxL', 'xrfxL', 'c7fxL', 'pgfGA]',
-  'GAA]', 'PsfGA]', 'aofGA]', 'l8ofGA]', 'rf}]fGA]', 'kGrfGA]', '5ofGA]', 'xGtfGA]', 'c7fGA]', 'pgGxy'
+  '','Ps',"b'O",'tLg','rf/','kfFr','5','xft','cf7','gf}',
+  'bz','P3f/','afXb','tXb','rf}w','kGb','xf]Xb','xb','c7f/','pgfOx',
+  'aLx','PsfOx','afOx','tPOx','rf}aLx','kRrLx','5AaLx','xQfOx','c7AaLx','pgGtLx',
+  'tLx','PstLx','aQtLx','tPQtLx','rf}tLx','k}FtLx','5QrLx','x}FtLx','c7tLx','pgrf/Lx',
+  'rf/Lx','PsrfnLx','aofnLx','l8ofnLx','rjfnLx','k}FtfnLx','5ofnLx','xrfnLx','c7rfnLx','pgkrfx',
+  'krfx','Psf}Gg','af}Gg','l8kGg','rf}kGg','krkGg','5kGg','xGtf}Gg','c7f}Gg','pgx7L',
+  'xf7L','Psx7L','afx7L','l8x7L','rf}x7L','k}Fx7L','5}x7L','xrx7L','c7x7L','pgxQrL',
+  'xQrL','Ps]Qr','a]Qr','l8]Qr','rf}]Qr','kr]Qr','5]Qr','xr]Qr','c7]Qr','pgfxL',
+  'cxL','PsfxL','aofxL','l8ofxL','rf}]fxL','krfxL','5ofxL','xrfxL','c7fxL','pgfGA]',
+  'GAA]','PsfGA]','aofGA]','l8ofGA]','rf}]fGA]','kGrfGA]','5ofGA]','xGtfGA]','c7fGA]','pgGxy'
 ];
 
-var currency = 'rupees';
-var lastU = '', lastP = '';
+var numCurrency = 'rupees';
+var numLastU = '', numLastP = '';
 
-function toWords(n) {
+function setCur(c) {
+  numCurrency = c;
+  document.querySelectorAll('.cur-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('cur-' + c).classList.add('active');
+  renderNum();
+}
+function setNum(n) {
+  document.getElementById('numberInput').value = n;
+  renderNum();
+}
+
+function toNepaliWords(n) {
   if (n === 0) return { u: '\u0936\u0942\u0928\u094d\u092f', p: 'zGo' };
   var u = [], p = [];
-  if (n >= 1000000000) { var v = Math.floor(n/1000000000); u.push(ones[v]+' \u0905\u0930\u092c'); p.push(preetis[v]+' c/a'); n%=1000000000; }
-  if (n >= 10000000)   { var v = Math.floor(n/10000000);   u.push(ones[v]+' \u0915\u0930\u094b\u0921'); p.push(preetis[v]+' s/f]8'); n%=10000000; }
-  if (n >= 100000)     { var v = Math.floor(n/100000);     u.push(ones[v]+' \u0932\u093e\u0916'); p.push(preetis[v]+' nfv'); n%=100000; }
-  if (n >= 1000)       { var v = Math.floor(n/1000);       u.push(ones[v]+' \u0939\u091c\u093e\u0930'); p.push(preetis[v]+' xhf/'); n%=1000; }
-  if (n >= 100)        { var v = Math.floor(n/100);        u.push(ones[v]+' \u0938\u092f'); p.push(preetis[v]+' xo'); n%=100; }
+  function add(v, uSuf, pSuf) { u.push(ones[v] + uSuf); p.push(preetis[v] + pSuf); }
+  if (n >= 1000000000) { add(Math.floor(n/1000000000),' \u0905\u0930\u092c',' c/a'); n%=1000000000; }
+  if (n >= 10000000)   { add(Math.floor(n/10000000),' \u0915\u0930\u094b\u0921',' s/f]8'); n%=10000000; }
+  if (n >= 100000)     { add(Math.floor(n/100000),' \u0932\u093e\u0916',' nfv'); n%=100000; }
+  if (n >= 1000)       { add(Math.floor(n/1000),' \u0939\u091c\u093e\u0930',' xhf/'); n%=1000; }
+  if (n >= 100)        { add(Math.floor(n/100),' \u0938\u092f',' xo'); n%=100; }
   if (n > 0)           { u.push(ones[n]); p.push(preetis[n]); }
   return { u: u.join(' '), p: p.join(' ') };
 }
 
-function render() {
+function renderNum() {
   var val = document.getElementById('numberInput').value;
-  var box = document.getElementById('resultBox');
-  if (val === '') { box.innerHTML = '<div class="placeholder">Enter a number above to convert...</div>'; return; }
+  var uEl = document.getElementById('numUnicode');
+  var pEl = document.getElementById('numPreeti');
+  if (val === '') {
+    uEl.className = 'nrr-value placeholder'; uEl.textContent = 'Enter a number above\u2026';
+    pEl.style.fontFamily = "'Crimson Pro',serif"; pEl.style.color = 'var(--text3)'; pEl.style.fontSize = '16px'; pEl.style.fontStyle = 'italic';
+    pEl.textContent = 'Preeti output will appear here\u2026';
+    return;
+  }
   var num = parseInt(val, 10);
-  if (isNaN(num) || num < 0) { box.innerHTML = '<div class="placeholder" style="color:var(--crimson)">Please enter a valid positive number.</div>'; return; }
-  if (num > 9999999999) { box.innerHTML = '<div class="placeholder" style="color:var(--crimson)">Number too large. Max: 999,99,99,999</div>'; return; }
-
-  var r = toWords(num);
-  lastU = r.u; lastP = r.p;
-
-  if (currency === 'rupees') { lastU += ' \u0930\u0941\u092a\u0948\u092f\u093e\u0901'; lastP += ' ?kof+'; }
-  else if (currency === 'paisa') { lastU += ' \u092a\u0948\u0938\u093e'; lastP += ' k}xf'; }
-
-  box.innerHTML =
-    '<div class="res-label">Unicode Devanagari</div>' +
-    '<div class="res-unicode">' + lastU + '</div>' +
-    '<div class="res-label" style="margin-top:10px;">Preeti Font</div>' +
-    '<div class="res-preeti">' + lastP + '</div>' +
-    '<div class="copy-row">' +
-      '<button class="copy-btn" id="copyU">Copy Unicode</button>' +
-      '<button class="copy-btn" id="copyP">Copy Preeti</button>' +
-    '</div>';
-
-  document.getElementById('copyU').onclick = function(){ doCopy(lastU, this); };
-  document.getElementById('copyP').onclick = function(){ doCopy(lastP, this); };
+  if (isNaN(num) || num < 0 || num > 9999999999) {
+    uEl.className = 'nrr-value placeholder'; uEl.textContent = 'Please enter a valid number (0\u2013999,99,99,999)';
+    return;
+  }
+  var r = toNepaliWords(num);
+  numLastU = r.u; numLastP = r.p;
+  if (numCurrency === 'rupees') { numLastU += ' \u0930\u0941\u092a\u0948\u092f\u093e\u0901'; numLastP += ' ?kof+'; }
+  else if (numCurrency === 'paisa') { numLastU += ' \u092a\u0948\u0938\u093e'; numLastP += ' k}xf'; }
+  uEl.className = 'nrr-value'; uEl.textContent = numLastU;
+  pEl.style.fontFamily = 'Preeti,monospace'; pEl.style.color = 'var(--gold2)'; pEl.style.fontSize = '22px'; pEl.style.fontStyle = 'normal';
+  pEl.textContent = numLastP;
 }
 
-function doCopy(text, btn) {
+function copySmall(elId, btnId) {
+  var text = document.getElementById(elId).textContent;
   navigator.clipboard.writeText(text).then(function() {
-    var o = btn.textContent; btn.textContent = '✓ Copied!'; btn.classList.add('copied');
-    setTimeout(function(){ btn.textContent = o; btn.classList.remove('copied'); }, 2000);
+    var btn = document.getElementById(btnId);
+    var orig = btn.textContent;
+    btn.textContent = '✓ Copied'; btn.classList.add('copied');
+    setTimeout(function(){ btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
   });
 }
 
+// ════════════════════════════════════════════════════════
+// BASIC UNICODE → PREETI MAPPING (for transliterator output)
+// ════════════════════════════════════════════════════════
+function unicodeToPreetiBasic(text) {
+  // Basic substitution map — core characters
+  var map = {
+    '\u0905':'c','\u0906':'cf','\u0907':'O','\u0908':'O{','\u0909':'p','\u090a':'pm',
+    '\u090f':'o','\u0910':'o{','\u0913':'cf]','\u0914':'cf}',
+    '\u0915':'s','\u0916':'v','\u0917':'u','\u0918':'3','\u0919':'}+',
+    '\u091a':'r','\u091b':'5','\u091c':'h','\u091d':'em','\u091e':'~',
+    '\u091f':'6','\u0920':'7','\u0921':'8','\u0922':'9','\u0923':'+',
+    '\u0924':'t','\u0925':'y','\u0926':'b','\u0927':'w','\u0928':'g',
+    '\u092a':'k','\u092b':'km','\u092c':'a','\u092d':'e','\u092e':'d',
+    '\u092f':'o','\u0930':'/','\u0932':'n','\u0935':'j',
+    '\u0936':'z','\u0937':'{','\u0938':'x','\u0939':'x',
+    '\u093e':'f','\u093f':'L','\u0940':'Lf','\u0941':'p','\u0942':'pm',
+    '\u0947':'o','\u0948':'o}','\u094b':'f]','\u094c':'f}',
+    '\u094d':'\\','\u0902':'+','\u0903':' M','\u0950':'}',
+    '\u0966':')','\u0967':'!','\u0968':'@','\u0969':'#','\u096a':'$',
+    '\u096b':'%','\u096c':'^','\u096d':'&','\u096e':'*','\u096f':'(',
+  };
+  var result = '';
+  for (var i = 0; i < text.length; i++) {
+    result += map[text[i]] !== undefined ? map[text[i]] : text[i];
+  }
+  return result;
+}
+
+// ════════════════════════════════════════════════════════
+// COPY HELPERS
+// ════════════════════════════════════════════════════════
+function copyOutput(elId, btnId) {
+  var el = document.getElementById(elId);
+  var text = el.textContent || el.innerText;
+  navigator.clipboard.writeText(text).then(function() {
+    var btn = document.getElementById(btnId);
+    var orig = btn.textContent;
+    btn.textContent = '✓'; btn.classList.add('copied');
+    setTimeout(function(){ btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// ════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════
 window.onload = function() {
-  var inp = document.getElementById('numberInput');
-  inp.addEventListener('input', render);
-  inp.addEventListener('keyup', render);
+  document.getElementById('numberInput').addEventListener('input', renderNum);
+  document.getElementById('numberInput').addEventListener('keyup', renderNum);
 
-  document.getElementById('btn-rupees').onclick = function() { currency='rupees'; setActive(this); render(); };
-  document.getElementById('btn-paisa').onclick  = function() { currency='paisa';  setActive(this); render(); };
-  document.getElementById('btn-none').onclick   = function() { currency='none';   setActive(this); render(); };
-
-  document.querySelectorAll('.chip').forEach(function(c) {
-    c.onclick = function() { inp.value = this.getAttribute('data-val'); render(); };
+  // Allow Enter to translate
+  document.getElementById('translateInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) doTranslate();
   });
 };
-
-function setActive(btn) {
-  document.querySelectorAll('.currency-btn').forEach(function(b){ b.classList.remove('active'); });
-  btn.classList.add('active');
-}
 </script>
 </body>
 </html>
