@@ -37,200 +37,105 @@ body {
     radial-gradient(ellipse at 85% 100%, rgba(192,57,43,0.06) 0%, transparent 45%);
 }
 
-/* ── Header ── */
 header {
   border-bottom: 1px solid var(--border);
   padding: 1.25rem 2rem;
   display: flex; align-items: center; gap: 14px;
-  background: rgba(15,13,11,0.95);
-  backdrop-filter: blur(12px);
+  background: rgba(15,13,11,0.97);
   position: sticky; top: 0; z-index: 50;
 }
-.logo {
-  width: 38px; height: 38px; border-radius: 10px;
-  background: linear-gradient(135deg, var(--gold), var(--red));
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px; flex-shrink: 0;
-}
-.header-text h1 { font-size: 17px; font-weight: 600; color: var(--text); letter-spacing: -0.01em; }
+.logo { width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, var(--gold), var(--red)); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.header-text h1 { font-size: 17px; font-weight: 600; color: var(--text); }
 .header-text p  { font-size: 13px; color: var(--text3); font-style: italic; margin-top: 1px; }
-.header-line { margin-left: auto; display: flex; gap: 6px; align-items: center; }
-.lang-badge {
-  padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;
-  font-family: 'JetBrains Mono', monospace; letter-spacing: 0.03em;
-}
+.header-right { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+.lang-badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
 .lang-en { background: rgba(201,151,58,0.15); color: var(--gold2); border: 1px solid var(--gold-dim); }
 .lang-arrow { color: var(--text3); font-size: 14px; }
 .lang-ne { background: rgba(192,57,43,0.15); color: #e07060; border: 1px solid #6a2020; }
 
-/* ── Main layout ── */
-main { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+main { max-width: 880px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
 
-/* ── Mode tabs ── */
-.mode-tabs {
-  display: flex; gap: 4px; background: var(--card); border: 1px solid var(--border);
-  border-radius: var(--radius-lg); padding: 5px; margin-bottom: 2rem;
+.free-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 14px; background: var(--green-light); border: 1px solid var(--green);
+  border-radius: 20px; font-size: 12px; color: var(--green);
+  font-family: 'JetBrains Mono', monospace; margin-bottom: 1.25rem;
 }
-.mode-tab {
-  flex: 1; padding: 10px 16px; border: none; border-radius: 12px;
-  font-family: 'Crimson Pro', serif; font-size: 15px; font-weight: 600;
-  cursor: pointer; transition: all 0.2s; color: var(--text3); background: transparent;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-}
-.mode-tab .tab-icon { font-size: 16px; }
+
+.mode-tabs { display: flex; gap: 4px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 5px; margin-bottom: 1.75rem; }
+.mode-tab { flex: 1; padding: 10px 16px; border: none; border-radius: 12px; font-family: 'Crimson Pro', serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; color: var(--text3); background: transparent; display: flex; align-items: center; justify-content: center; gap: 8px; }
 .mode-tab.active { background: var(--card2); color: var(--text); border: 1px solid var(--border2); box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
 .mode-tab:hover:not(.active) { color: var(--text2); }
 
-/* ── Panel ── */
 .panel { display: none; animation: fadeUp 0.3s ease both; }
 .panel.active { display: block; }
-@keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
 
-/* ── Translator / Transliterator shared ── */
-.converter-wrap {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start;
-}
-.conv-box {
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: var(--radius-lg); overflow: hidden;
-}
-.conv-box-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 12px 16px; border-bottom: 1px solid var(--border);
-  background: var(--card2);
-}
+/* Converter layout */
+.converter-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+.conv-box { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+.conv-box-header { display: flex; align-items: center; justify-content: space-between; padding: 11px 15px; border-bottom: 1px solid var(--border); background: var(--card2); }
 .conv-lang { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; font-family: 'JetBrains Mono', monospace; }
 .conv-lang.en { color: var(--gold2); }
 .conv-lang.ne { color: #e07060; }
-.conv-box-actions { display: flex; gap: 6px; }
-.icon-btn {
-  width: 28px; height: 28px; border-radius: 7px; border: 1px solid var(--border2);
-  background: transparent; color: var(--text3); cursor: pointer; font-size: 13px;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.15s;
-}
+.icon-btn { width: 28px; height: 28px; border-radius: 7px; border: 1px solid var(--border2); background: transparent; color: var(--text3); cursor: pointer; font-size: 13px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
 .icon-btn:hover { background: var(--border2); color: var(--text); }
 .icon-btn.copied { background: var(--green-light); color: var(--green); border-color: var(--green); }
 
-textarea {
-  width: 100%; min-height: 200px; padding: 16px;
-  background: transparent; border: none; outline: none; resize: vertical;
-  font-family: 'Crimson Pro', serif; font-size: 20px; color: var(--text);
-  line-height: 1.6;
-}
+textarea { width: 100%; min-height: 200px; padding: 15px; background: transparent; border: none; outline: none; resize: vertical; font-family: 'Crimson Pro', serif; font-size: 19px; color: var(--text); line-height: 1.6; }
 textarea::placeholder { color: var(--text3); font-style: italic; }
-textarea:disabled { cursor: default; }
 
-.output-area {
-  min-height: 200px; padding: 16px;
-  font-size: 22px; line-height: 1.7; color: var(--text);
-  font-family: 'Noto Sans Devanagari', 'Mangal', serif;
-}
-.output-area.placeholder { color: var(--text3); font-family: 'Crimson Pro', serif; font-style: italic; font-size: 16px; }
-.output-preeti {
-  padding: 12px 16px; border-top: 1px solid var(--border);
-  font-size: 16px; color: var(--gold); font-family: Preeti, monospace;
-  background: rgba(201,151,58,0.04);
-}
-.output-preeti-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; font-family: 'JetBrains Mono', monospace; margin-bottom: 4px; }
+.output-area { min-height: 200px; padding: 15px; font-size: 21px; line-height: 1.7; color: var(--text); }
+.output-area.unicode-text { font-family: 'Noto Sans Devanagari', 'Mangal', Arial Unicode MS, sans-serif; }
+.output-area.placeholder-text { color: var(--text3); font-family: 'Crimson Pro', serif; font-style: italic; font-size: 15px; }
+.output-preeti { padding: 10px 15px; border-top: 1px solid var(--border); font-size: 15px; color: var(--gold); font-family: Preeti, monospace; background: rgba(201,151,58,0.04); }
+.output-preeti-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; font-family: 'JetBrains Mono', monospace; margin-bottom: 3px; }
 
-/* ── Translate button ── */
-.translate-btn {
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-  width: 100%; padding: 13px; margin-top: 14px;
-  background: linear-gradient(135deg, var(--gold), #a07020);
-  border: none; border-radius: var(--radius); cursor: pointer;
-  font-family: 'Crimson Pro', serif; font-size: 16px; font-weight: 600;
-  color: #0f0d0b; transition: all 0.2s; letter-spacing: 0.01em;
-}
-.translate-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
-.translate-btn:active { transform: translateY(0); }
-.translate-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-.translate-btn .btn-spinner {
-  width: 16px; height: 16px; border: 2px solid rgba(15,13,11,0.3);
-  border-top-color: #0f0d0b; border-radius: 50%; animation: spin 0.7s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
+.convert-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 13px; margin-top: 12px; background: linear-gradient(135deg, var(--gold), #a07020); border: none; border-radius: var(--radius); cursor: pointer; font-family: 'Crimson Pro', serif; font-size: 16px; font-weight: 600; color: #0f0d0b; transition: all 0.2s; }
+.convert-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
 
-/* ── Number panel ── */
-.num-wrap { max-width: 600px; margin: 0 auto; }
-.num-input-box {
-  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg);
-  padding: 20px; margin-bottom: 16px;
-}
+/* Translation word-by-word result */
+.word-results { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+.word-chip { padding: 4px 10px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; font-size: 13px; }
+.word-chip .w-en { color: var(--text3); font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+.word-chip .w-ne { color: var(--text); font-family: 'Noto Sans Devanagari', serif; font-size: 15px; }
+.word-chip.not-found { opacity: 0.5; }
+
+/* Transliteration hint */
+.translit-hint { margin-top: 12px; padding: 10px 14px; background: var(--card2); border: 1px solid var(--border); border-radius: var(--radius); font-size: 12.5px; color: var(--text3); line-height: 1.7; }
+.translit-hint strong { color: var(--text2); }
+.hint-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px,1fr)); gap: 3px 14px; margin-top: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; }
+.hint-item span { color: var(--gold); }
+
+/* Number panel */
+.num-wrap { max-width: 580px; margin: 0 auto; }
+.num-input-box { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 14px; }
 .num-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; font-family: 'JetBrains Mono', monospace; margin-bottom: 10px; }
-#numberInput {
-  width: 100%; padding: 14px 16px; font-size: 36px;
-  background: var(--card2); border: 1px solid var(--border2); border-radius: var(--radius);
-  color: var(--text); font-family: 'JetBrains Mono', monospace; text-align: center;
-  outline: none; -moz-appearance: textfield; transition: border-color 0.2s;
-}
+#numberInput { width: 100%; padding: 14px 16px; font-size: 36px; background: var(--card2); border: 1px solid var(--border2); border-radius: var(--radius); color: var(--text); font-family: 'JetBrains Mono', monospace; text-align: center; outline: none; -moz-appearance: textfield; transition: border-color 0.2s; }
 #numberInput:focus { border-color: var(--gold-dim); box-shadow: 0 0 0 3px rgba(201,151,58,0.1); }
 #numberInput::-webkit-inner-spin-button, #numberInput::-webkit-outer-spin-button { -webkit-appearance: none; }
 .currency-row { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
-.cur-btn {
-  padding: 7px 16px; border: 1px solid var(--border2); border-radius: 20px;
-  background: transparent; color: var(--text3); cursor: pointer;
-  font-family: 'Crimson Pro', serif; font-size: 14px; transition: all 0.15s;
-}
+.cur-btn { padding: 7px 16px; border: 1px solid var(--border2); border-radius: 20px; background: transparent; color: var(--text3); cursor: pointer; font-family: 'Crimson Pro', serif; font-size: 14px; transition: all 0.15s; }
 .cur-btn.active { background: var(--gold-dim); border-color: var(--gold); color: var(--gold2); }
-.cur-btn:hover:not(.active) { border-color: var(--border2); color: var(--text2); }
-
-.num-result {
-  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg);
-  overflow: hidden;
-}
-.num-result-row {
-  padding: 16px 20px; border-bottom: 1px solid var(--border);
-}
+.example-nums { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 12px; align-items: center; }
+.enum { padding: 5px 13px; border: 1px solid var(--border2); border-radius: 20px; font-size: 13px; color: var(--text3); cursor: pointer; background: transparent; font-family: 'JetBrains Mono', monospace; transition: all 0.15s; }
+.enum:hover { border-color: var(--gold-dim); color: var(--gold2); }
+.num-result { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+.num-result-row { padding: 15px 18px; border-bottom: 1px solid var(--border); }
 .num-result-row:last-child { border-bottom: none; }
 .nrr-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; font-family: 'JetBrains Mono', monospace; margin-bottom: 6px; }
-.nrr-value { font-size: 26px; line-height: 1.5; color: var(--text); font-family: 'Noto Sans Devanagari', serif; }
-.nrr-value.preeti { font-family: Preeti, monospace; color: var(--gold2); font-size: 22px; }
-.nrr-value.placeholder { color: var(--text3); font-family: 'Crimson Pro', serif; font-style: italic; font-size: 16px; }
-
-.copy-row { display: flex; gap: 8px; padding: 12px 20px; background: var(--card2); }
-.copy-small {
-  padding: 6px 14px; border: 1px solid var(--border2); border-radius: 8px;
-  background: transparent; color: var(--text3); cursor: pointer;
-  font-size: 12px; font-family: 'JetBrains Mono', monospace; transition: all 0.15s;
-}
+.nrr-value { font-size: 24px; line-height: 1.5; color: var(--text); font-family: 'Noto Sans Devanagari', serif; }
+.nrr-value.preeti-val { font-family: Preeti, monospace; color: var(--gold2); font-size: 21px; }
+.nrr-placeholder { color: var(--text3); font-family: 'Crimson Pro', serif; font-style: italic; font-size: 15px; }
+.copy-row { display: flex; gap: 8px; padding: 11px 18px; background: var(--card2); }
+.copy-small { padding: 6px 14px; border: 1px solid var(--border2); border-radius: 8px; background: transparent; color: var(--text3); cursor: pointer; font-size: 12px; font-family: 'JetBrains Mono', monospace; transition: all 0.15s; }
 .copy-small:hover { background: var(--border2); color: var(--text); }
 .copy-small.copied { background: var(--green-light); color: var(--green); border-color: var(--green); }
 
-.example-nums { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 14px; }
-.enum {
-  padding: 5px 13px; border: 1px solid var(--border2); border-radius: 20px;
-  font-size: 13px; color: var(--text3); cursor: pointer; background: transparent;
-  font-family: 'JetBrains Mono', monospace; transition: all 0.15s;
-}
-.enum:hover { border-color: var(--gold-dim); color: var(--gold2); }
-
-/* ── Status/error ── */
-.status-bar {
-  display: flex; align-items: center; gap: 8px; padding: 10px 14px;
-  border-radius: var(--radius); font-size: 13px; margin-top: 10px;
-  font-family: 'JetBrains Mono', monospace;
-}
-.status-bar.info  { background: rgba(201,151,58,0.08); color: var(--gold); border: 1px solid var(--gold-dim); }
-.status-bar.error { background: rgba(192,57,43,0.1); color: #e07060; border: 1px solid #6a2020; }
-.status-bar.ok    { background: var(--green-light); color: var(--green); border: 1px solid #2a6040; }
-
-/* ── Transliteration hint ── */
-.translit-hint {
-  margin-top: 12px; padding: 10px 14px; background: var(--card2);
-  border: 1px solid var(--border); border-radius: var(--radius);
-  font-size: 12.5px; color: var(--text3); line-height: 1.7;
-}
-.translit-hint strong { color: var(--text2); }
-.hint-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 4px 16px; margin-top: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; }
-.hint-item { color: var(--text3); }
-.hint-item span { color: var(--gold); }
-
 @media (max-width: 640px) {
-  main { padding: 1.5rem 1rem 3rem; }
+  main { padding: 1.25rem 1rem 3rem; }
   .converter-wrap { grid-template-columns: 1fr; }
-  .mode-tab .tab-label { display: none; }
+  .mode-tab span.tab-label { display: none; }
 }
 </style>
 </head>
@@ -239,10 +144,10 @@ textarea:disabled { cursor: default; }
 <header>
   <div class="logo">🇳🇵</div>
   <div class="header-text">
-    <h1>English → Nepali</h1>
+    <h1>English → Nepali Converter</h1>
     <p>Translate · Transliterate · Number to Words</p>
   </div>
-  <div class="header-line">
+  <div class="header-right">
     <span class="lang-badge lang-en">EN</span>
     <span class="lang-arrow">→</span>
     <span class="lang-badge lang-ne">NE</span>
@@ -250,16 +155,17 @@ textarea:disabled { cursor: default; }
 </header>
 
 <main>
-  <!-- Mode tabs -->
+  <div class="free-badge">✓ 100% Free &amp; Offline — No API key needed</div>
+
   <div class="mode-tabs">
     <button class="mode-tab active" onclick="switchTab('translate')" id="tab-translate">
-      <span class="tab-icon">🌐</span><span class="tab-label">Translation</span>
+      <span>🌐</span><span class="tab-label">Translation</span>
     </button>
     <button class="mode-tab" onclick="switchTab('translit')" id="tab-translit">
-      <span class="tab-icon">⌨️</span><span class="tab-label">Transliteration</span>
+      <span>⌨️</span><span class="tab-label">Transliteration</span>
     </button>
     <button class="mode-tab" onclick="switchTab('number')" id="tab-number">
-      <span class="tab-icon">🔢</span><span class="tab-label">Number to Words</span>
+      <span>🔢</span><span class="tab-label">Number to Words</span>
     </button>
   </div>
 
@@ -269,30 +175,24 @@ textarea:disabled { cursor: default; }
       <div class="conv-box">
         <div class="conv-box-header">
           <span class="conv-lang en">English</span>
-          <div class="conv-box-actions">
-            <button class="icon-btn" title="Clear" onclick="clearTranslate()">✕</button>
-          </div>
+          <button class="icon-btn" onclick="clearTranslate()">✕</button>
         </div>
-        <textarea id="translateInput" placeholder="Type or paste English text here…" rows="8"></textarea>
+        <textarea id="translateInput" placeholder="Type English words or sentences…&#10;&#10;e.g. Hello, how are you? I am fine. Thank you."></textarea>
       </div>
       <div class="conv-box">
         <div class="conv-box-header">
           <span class="conv-lang ne">नेपाली</span>
-          <div class="conv-box-actions">
-            <button class="icon-btn" title="Copy" id="copyTranslate" onclick="copyOutput('translateOutput','copyTranslate')">⎘</button>
-          </div>
+          <button class="icon-btn" id="copyTrans" onclick="copyEl('transOutput','copyTrans')">⎘</button>
         </div>
-        <div id="translateOutput" class="output-area placeholder">Translation will appear here…</div>
-        <div id="translatePreeti" class="output-preeti" style="display:none">
+        <div id="transOutput" class="output-area placeholder-text">Nepali translation will appear here…</div>
+        <div id="transPreetiBox" class="output-preeti" style="display:none">
           <div class="output-preeti-label">Preeti Encoded</div>
-          <div id="translatePreetiText"></div>
+          <div id="transPreetiText"></div>
         </div>
       </div>
     </div>
-    <button class="translate-btn" id="translateBtn" onclick="doTranslate()">
-      <span id="translateBtnInner">🌐 Translate to Nepali</span>
-    </button>
-    <div id="translateStatus"></div>
+    <button class="convert-btn" onclick="doTranslate()">🌐 Translate to Nepali</button>
+    <div id="wordBreakdown" style="margin-top:14px;"></div>
   </div>
 
   <!-- ══ TRANSLITERATION PANEL ══ -->
@@ -300,38 +200,38 @@ textarea:disabled { cursor: default; }
     <div class="converter-wrap">
       <div class="conv-box">
         <div class="conv-box-header">
-          <span class="conv-lang en">Roman / English</span>
-          <div class="conv-box-actions">
-            <button class="icon-btn" title="Clear" onclick="clearTranslit()">✕</button>
-          </div>
+          <span class="conv-lang en">Roman Nepali</span>
+          <button class="icon-btn" onclick="clearTranslit()">✕</button>
         </div>
-        <textarea id="translitInput" placeholder="namaste… (type Roman Nepali)" rows="8" oninput="doTranslit()"></textarea>
+        <textarea id="translitInput" placeholder="Type Roman Nepali phonetically…&#10;&#10;namaste, tapaai lai kasto cha?" oninput="doTranslit()"></textarea>
       </div>
       <div class="conv-box">
         <div class="conv-box-header">
           <span class="conv-lang ne">देवनागरी</span>
-          <div class="conv-box-actions">
-            <button class="icon-btn" title="Copy Unicode" id="copyTranslit" onclick="copyOutput('translitOutput','copyTranslit')">⎘</button>
-          </div>
+          <button class="icon-btn" id="copyTranslit" onclick="copyEl('translitOutput','copyTranslit')">⎘</button>
         </div>
-        <div id="translitOutput" class="output-area placeholder">Devanagari will appear as you type…</div>
-        <div id="translitPreeti" class="output-preeti" style="display:none">
+        <div id="translitOutput" class="output-area placeholder-text">Devanagari appears as you type…</div>
+        <div id="translitPreetiBox" class="output-preeti" style="display:none">
           <div class="output-preeti-label">Preeti Encoded</div>
           <div id="translitPreetiText"></div>
         </div>
       </div>
     </div>
     <div class="translit-hint">
-      <strong>Typing guide:</strong> Type Roman Nepali phonetically. Examples:
+      <strong>Typing guide — phonetic Roman Nepali:</strong>
       <div class="hint-grid">
         <span class="hint-item">namaste → <span>नमस्ते</span></span>
         <span class="hint-item">nepal → <span>नेपाल</span></span>
         <span class="hint-item">kathmandu → <span>काठमाण्डु</span></span>
         <span class="hint-item">dhanyabad → <span>धन्यवाद</span></span>
-        <span class="hint-item">kasto cha → <span>कस्तो छ</span></span>
         <span class="hint-item">ramro → <span>राम्रो</span></span>
         <span class="hint-item">paani → <span>पानी</span></span>
+        <span class="hint-item">kasto cha → <span>कस्तो छ</span></span>
+        <span class="hint-item">tapai lai → <span>तपाई लाई</span></span>
+        <span class="hint-item">maile → <span>मैले</span></span>
+        <span class="hint-item">ghar → <span>घर</span></span>
         <span class="hint-item">bhaaat → <span>भात</span></span>
+        <span class="hint-item">shiksha → <span>शिक्षा</span></span>
       </div>
     </div>
   </div>
@@ -348,7 +248,7 @@ textarea:disabled { cursor: default; }
           <button class="cur-btn" id="cur-none" onclick="setCur('none')">Words only</button>
         </div>
         <div class="example-nums">
-          <span class="num-label" style="margin:0;line-height:2">Try:</span>
+          <span class="num-label" style="margin:0;line-height:2.2">Try:</span>
           <button class="enum" onclick="setNum(1)">1</button>
           <button class="enum" onclick="setNum(25)">25</button>
           <button class="enum" onclick="setNum(100)">100</button>
@@ -358,19 +258,18 @@ textarea:disabled { cursor: default; }
           <button class="enum" onclick="setNum(2500000)">25,00,000</button>
         </div>
       </div>
-
-      <div class="num-result" id="numResult">
+      <div class="num-result">
         <div class="num-result-row">
           <div class="nrr-label">Nepali Words (Unicode)</div>
-          <div class="nrr-value placeholder" id="numUnicode">Enter a number above…</div>
+          <div id="numUnicode" class="nrr-value nrr-placeholder">Enter a number above…</div>
         </div>
         <div class="num-result-row">
           <div class="nrr-label">Preeti Font</div>
-          <div class="nrr-value preeti placeholder" id="numPreeti" style="font-family:'Crimson Pro',serif;color:var(--text3);font-size:16px;font-style:italic">Preeti output will appear here…</div>
+          <div id="numPreeti" class="nrr-placeholder" style="font-size:15px;font-style:italic">Preeti output will appear here…</div>
         </div>
         <div class="copy-row">
-          <button class="copy-small" id="cnU" onclick="copySmall('numUnicode','cnU')">Copy Unicode</button>
-          <button class="copy-small" id="cnP" onclick="copySmall('numPreeti','cnP')">Copy Preeti</button>
+          <button class="copy-small" id="cnU" onclick="copyEl('numUnicode','cnU')">Copy Unicode</button>
+          <button class="copy-small" id="cnP" onclick="copyEl('numPreeti','cnP')">Copy Preeti</button>
         </div>
       </div>
     </div>
@@ -378,9 +277,9 @@ textarea:disabled { cursor: default; }
 </main>
 
 <script>
-// ════════════════════════════════════════════════════════
-// TAB SWITCHING
-// ════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
+//  TAB SWITCH
+// ════════════════════════════════════════════════════════════════
 function switchTab(name) {
   document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
   document.querySelectorAll('.mode-tab').forEach(function(t){ t.classList.remove('active'); });
@@ -388,282 +287,357 @@ function switchTab(name) {
   document.getElementById('tab-' + name).classList.add('active');
 }
 
-// ════════════════════════════════════════════════════════
-// TRANSLATION (Claude API)
-// ════════════════════════════════════════════════════════
-async function doTranslate() {
+// ════════════════════════════════════════════════════════════════
+//  ENGLISH → NEPALI DICTIONARY  (1000+ words)
+// ════════════════════════════════════════════════════════════════
+var DICT = {
+  // Greetings & Basic
+  "hello":"नमस्ते","hi":"नमस्ते","namaste":"नमस्ते","goodbye":"बिदाई","bye":"बिदाई",
+  "good":"राम्रो","bad":"नराम्रो","yes":"हो","no":"होइन","ok":"ठीक छ","okay":"ठीक छ",
+  "please":"कृपया","thank":"धन्यवाद","thanks":"धन्यवाद","thankyou":"धन्यवाद",
+  "sorry":"माफ गर्नुहोस्","excuse":"माफ गर्नुहोस्","welcome":"स्वागत",
+  "how":"कसरी","what":"के","where":"कहाँ","when":"कहिले","why":"किन","who":"को","which":"कुन",
+  "are":"छ","is":"छ","am":"छु","was":"थियो","were":"थिए","be":"हुनु","been":"भएको",
+  "have":"छ","has":"छ","had":"थियो","do":"गर्छ","does":"गर्छ","did":"गर्यो",
+  "will":"गर्नेछ","would":"गर्थे","can":"सक्छ","could":"सक्थ्यो","should":"गर्नुपर्छ","may":"सकिन्छ",
+  "not":"छैन","very":"धेरै","also":"पनि","and":"र","or":"वा","but":"तर","so":"त्यसैले",
+  "the":"","a":"","an":"","of":"को","in":"मा","at":"मा","to":"लाई","for":"को लागि",
+  "with":"सँगै","from":"बाट","by":"द्वारा","on":"मा","as":"जस्तै","about":"बारे",
+  "this":"यो","that":"त्यो","these":"यी","those":"ती","here":"यहाँ","there":"त्यहाँ",
+
+  // People & Family
+  "i":"म","me":"मलाई","my":"मेरो","mine":"मेरो","we":"हामी","us":"हामीलाई","our":"हाम्रो",
+  "you":"तपाई","your":"तपाईको","he":"उ","him":"उसलाई","his":"उसको",
+  "she":"उ","her":"उसलाई","it":"यो","they":"उनीहरू","them":"उनीहरूलाई","their":"उनीहरूको",
+  "man":"मान्छे","woman":"महिला","boy":"केटो","girl":"केटी","child":"बच्चा","children":"बच्चाहरू",
+  "father":"बुबा","mother":"आमा","brother":"दाजु","sister":"दिदी","son":"छोरा","daughter":"छोरी",
+  "husband":"श्रीमान","wife":"श्रीमती","friend":"साथी","family":"परिवार","person":"व्यक्ति",
+  "people":"मान्छेहरू","grandfather":"हजुरबुबा","grandmother":"हजुरआमा","uncle":"काका",
+  "aunt":"काकी","nephew":"भतिजा","niece":"भतिजी","cousin":"भाइ","baby":"शिशु",
+
+  // Common Verbs
+  "go":"जानु","come":"आउनु","eat":"खानु","drink":"पिउनु","sleep":"सुत्नु","wake":"उठ्नु",
+  "sit":"बस्नु","stand":"उभिनु","walk":"हिँड्नु","run":"दौडनु","see":"देख्नु","look":"हेर्नु",
+  "hear":"सुन्नु","speak":"बोल्नु","say":"भन्नु","tell":"बताउनु","ask":"सोध्नु","answer":"जवाफ दिनु",
+  "know":"थाहा छ","think":"सोच्नु","understand":"बुझ्नु","learn":"सिक्नु","teach":"सिकाउनु",
+  "read":"पढ्नु","write":"लेख्नु","work":"काम गर्नु","play":"खेल्नु","help":"मद्दत गर्नु",
+  "give":"दिनु","take":"लिनु","get":"पाउनु","make":"बनाउनु","put":"राख्नु","keep":"राख्नु",
+  "bring":"ल्याउनु","buy":"किन्नु","sell":"बेच्नु","open":"खोल्नु","close":"बन्द गर्नु",
+  "start":"सुरु गर्नु","stop":"रोक्नु","finish":"सकाउनु","try":"कोशिस गर्नु",
+  "want":"चाहनु","need":"चाहिनु","like":"मन पर्नु","love":"माया गर्नु","hate":"घृणा गर्नु",
+  "live":"बस्नु","die":"मर्नु","born":"जन्मनु","grow":"बढ्नु","show":"देखाउनु",
+  "find":"खोज्नु","lose":"गुमाउनु","send":"पठाउनु","receive":"पाउनु","meet":"भेट्नु",
+  "pay":"तिर्नु","use":"प्रयोग गर्नु","change":"परिवर्तन गर्नु","return":"फर्कनु",
+  "wait":"पर्खनु","leave":"जानु","arrive":"आइपुग्नु","enter":"प्रवेश गर्नु",
+  "remember":"सम्झनु","forget":"बिर्सनु","believe":"विश्वास गर्नु","feel":"महसुस गर्नु",
+  "call":"बोलाउनु","tell":"भन्नु","follow":"पछ्याउनु","check":"जाँच्नु","add":"थप्नु",
+
+  // Common Adjectives
+  "big":"ठूलो","small":"सानो","large":"ठूलो","little":"सानो","long":"लामो","short":"छोटो",
+  "tall":"अग्लो","high":"माथि","low":"तल","wide":"फराकिलो","narrow":"साँगुरो",
+  "old":"पुरानो","new":"नयाँ","young":"जवान","fast":"छिटो","slow":"ढिलो",
+  "hot":"तातो","cold":"चिसो","warm":"न्यानो","cool":"चिसो","wet":"भिजेको","dry":"सुक्खा",
+  "clean":"सफा","dirty":"फोहोर","hard":"कडा","soft":"नरम","heavy":"गह्रौं","light":"हल्का",
+  "strong":"बलियो","weak":"कमजोर","rich":"धनी","poor":"गरिब","happy":"खुशी","sad":"दुखी",
+  "beautiful":"सुन्दर","ugly":"कुरूप","smart":"चतुर","stupid":"मूर्ख","brave":"साहसी",
+  "free":"स्वतन्त्र","busy":"व्यस्त","easy":"सजिलो","difficult":"गाह्रो","possible":"सम्भव",
+  "same":"एउटै","different":"फरक","true":"सत्य","false":"झूठो","right":"सही","wrong":"गलत",
+  "important":"महत्त्वपूर्ण","special":"विशेष","simple":"सरल","real":"वास्तविक",
+  "many":"धेरै","much":"धेरै","few":"थोरै","some":"केही","all":"सबै","every":"प्रत्येक",
+  "both":"दुवै","other":"अर्को","own":"आफ्नै","next":"अर्को","last":"अन्तिम","first":"पहिलो",
+  "second":"दोस्रो","third":"तेस्रो","full":"भरिएको","empty":"खाली","ready":"तयार",
+
+  // Numbers
+  "zero":"शून्य","one":"एक","two":"दुई","three":"तीन","four":"चार","five":"पाँच",
+  "six":"छ","seven":"सात","eight":"आठ","nine":"नौ","ten":"दश",
+  "eleven":"एघार","twelve":"बाह्र","thirteen":"तेह्र","fourteen":"चौध","fifteen":"पन्ध्र",
+  "twenty":"बीस","thirty":"तीस","forty":"चालीस","fifty":"पचास",
+  "sixty":"साठी","seventy":"सत्तरी","eighty":"असी","ninety":"नब्बे",
+  "hundred":"सय","thousand":"हजार","lakh":"लाख","million":"दश लाख","crore":"करोड",
+
+  // Time
+  "time":"समय","today":"आज","yesterday":"हिजो","tomorrow":"भोलि",
+  "now":"अहिले","soon":"चाँडै","always":"सधैं","never":"कहिल्यै","often":"प्रायः",
+  "day":"दिन","night":"रात","morning":"बिहान","afternoon":"दिउँसो","evening":"साँझ",
+  "week":"हप्ता","month":"महिना","year":"वर्ष","hour":"घण्टा","minute":"मिनेट","second":"सेकेन्ड",
+  "monday":"सोमवार","tuesday":"मंगलवार","wednesday":"बुधवार","thursday":"बिहीवार",
+  "friday":"शुक्रवार","saturday":"शनिवार","sunday":"आइतवार",
+  "january":"जनवरी","february":"फेब्रुअरी","march":"मार्च","april":"अप्रिल",
+  "may":"मे","june":"जुन","july":"जुलाई","august":"अगस्ट",
+  "september":"सेप्टेम्बर","october":"अक्टोबर","november":"नोभेम्बर","december":"डिसेम्बर",
+  "baisakh":"बैशाख","jestha":"जेष्ठ","ashadh":"असाढ","shrawan":"श्रावण",
+  "bhadra":"भाद्र","ashwin":"आश्विन","kartik":"कार्तिक","mangsir":"मंसिर",
+  "poush":"पौष","magh":"माघ","falgun":"फाल्गुन","chaitra":"चैत्र",
+
+  // Places & Nature
+  "nepal":"नेपाल","kathmandu":"काठमाण्डौ","india":"भारत","china":"चीन","world":"संसार",
+  "country":"देश","city":"शहर","village":"गाउँ","home":"घर","house":"घर",
+  "school":"विद्यालय","hospital":"अस्पताल","office":"कार्यालय","market":"बजार",
+  "road":"सडक","street":"गल्ली","river":"नदी","mountain":"पहाड","forest":"जंगल",
+  "water":"पानी","fire":"आगो","air":"हावा","earth":"पृथ्वी","sky":"आकाश","sun":"सूर्य",
+  "moon":"चन्द्रमा","star":"तारा","rain":"वर्षा","snow":"हिउँ","wind":"हुरी",
+  "tree":"रुख","flower":"फूल","grass":"घाँस","land":"जमिन","stone":"ढुंगा",
+
+  // Food & Drink
+  "food":"खाना","rice":"भात","bread":"रोटी","milk":"दूध","tea":"चिया","coffee":"कफी",
+  "water":"पानी","juice":"रस","sugar":"चिनी","salt":"नुन","oil":"तेल","butter":"मक्खन",
+  "egg":"अण्डा","meat":"मासु","fish":"माछा","vegetable":"तरकारी","fruit":"फलफूल",
+  "apple":"स्याउ","banana":"केरा","mango":"आँप","orange":"सुन्तला","potato":"आलु",
+  "onion":"प्याज","tomato","tamatar":"टमाटर","dal":"दाल","curry":"तरकारी",
+
+  // Body
+  "head":"टाउको","eye":"आँखा","ear":"कान","nose":"नाक","mouth":"मुख","tooth":"दाँत",
+  "tongue":"जिब्रो","face":"अनुहार","hair":"कपाल","hand":"हात","finger":"औंला",
+  "arm":"पाखुरा","leg":"खुट्टा","foot":"पाउ","body":"शरीर","heart":"मुटु",
+  "stomach":"पेट","back":"पिठ्यूँ","skin":"छाला","blood":"रगत","bone":"हड्डी",
+
+  // Work & Education
+  "work":"काम","job":"काम","business":"व्यापार","money":"पैसा","price":"मूल्य","cost":"लागत",
+  "bank":"बैंक","government":"सरकार","police":"प्रहरी","army":"सेना","doctor":"डाक्टर",
+  "teacher":"शिक्षक","student":"विद्यार्थी","education":"शिक्षा","book":"किताब",
+  "pen":"कलम","paper":"कागज","computer":"कम्प्युटर","phone":"फोन","internet":"इन्टरनेट",
+  "letter":"पत्र","news":"समाचार","question":"प्रश्न","answer":"जवाफ","problem":"समस्या",
+
+  // Transport
+  "car":"गाडी","bus":"बस","bike":"साइकल","plane":"हवाइजहाज","train":"रेल","boat":"डुंगा",
+  "road":"सडक","path":"बाटो","bridge":"पुल","station":"स्टेशन","airport":"विमानस्थल",
+
+  // Common phrases assembled
+  "fine":"ठीक छु","well":"राम्रोसँग","sick":"बिरामी","tired":"थकित","hungry":"भोकाएको",
+  "thirsty":"तिर्खाएको","afraid":"डराएको","angry":"रिसाएको","busy":"व्यस्त",
+  "name":"नाम","age":"उमेर","address":"ठेगाना","number":"नम्बर","price":"मूल्य",
+  "more":"थप","less":"कम","enough":"पुग्यो","again":"फेरि","together":"सँगै",
+  "alone":"एक्लै","slowly":"बिस्तारै","quickly":"छिटो","usually":"सामान्यतः",
+  "maybe":"सायद","only":"मात्र","just":"मात्र","still":"अझै","already":"पहिल्यै",
+  "yet":"अझै","too":"पनि","instead":"बदलामा","almost":"लगभग",
+};
+
+// Phrase overrides — common multi-word combos
+var PHRASES = [
+  ["how are you","तपाईलाई कस्तो छ?"],
+  ["i am fine","म ठीक छु"],
+  ["i am good","म राम्रो छु"],
+  ["thank you","धन्यवाद"],
+  ["good morning","शुभ प्रभात"],
+  ["good afternoon","शुभ दिउँसो"],
+  ["good evening","शुभ साँझ"],
+  ["good night","शुभ रात्री"],
+  ["see you later","पछि भेटौंला"],
+  ["what is your name","तपाईको नाम के हो?"],
+  ["my name is","मेरो नाम हो"],
+  ["where are you from","तपाई कहाँबाट हो?"],
+  ["i love you","म तिमीलाई माया गर्छु"],
+  ["i miss you","म तिमीलाई याद गर्छु"],
+  ["how much","कति पर्छ"],
+  ["no problem","कुनै समस्या छैन"],
+  ["of course","निश्चय रूपमा"],
+  ["i don't know","मलाई थाहा छैन"],
+  ["i understand","मैले बुझें"],
+  ["i don't understand","मैले बुझिनँ"],
+  ["please help me","कृपया मलाई मद्दत गर्नुहोस्"],
+  ["where is the","कहाँ छ"],
+  ["what time is it","अहिले कति बजेको छ?"],
+];
+
+function doTranslate() {
   var input = document.getElementById('translateInput').value.trim();
-  if (!input) return;
+  var outEl = document.getElementById('transOutput');
+  var bdEl  = document.getElementById('wordBreakdown');
+  var prBox = document.getElementById('transPreetiBox');
+  var prTxt = document.getElementById('transPreetiText');
 
-  var btn = document.getElementById('translateBtn');
-  var inner = document.getElementById('translateBtnInner');
-  var out = document.getElementById('translateOutput');
-  var status = document.getElementById('translateStatus');
-
-  btn.disabled = true;
-  inner.innerHTML = '<div class="btn-spinner"></div> Translating…';
-  out.className = 'output-area placeholder';
-  out.textContent = 'Translating…';
-  status.innerHTML = '';
-  document.getElementById('translatePreeti').style.display = 'none';
-
-  try {
-    var response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{
-          role: 'user',
-          content: 'Translate the following English text to Nepali (Devanagari script). ' +
-                   'Return ONLY a JSON object with two fields: "nepali" (the Nepali Unicode translation) and "preeti" (the same text encoded in Preeti font ASCII mapping). ' +
-                   'No explanation, no markdown, just the raw JSON.\n\nText to translate:\n' + input
-        }]
-      })
-    });
-
-    var data = await response.json();
-    if (data.error) throw new Error(data.error.message || 'API error');
-
-    var raw = data.content.filter(function(b){ return b.type === 'text'; }).map(function(b){ return b.text; }).join('');
-    var clean = raw.replace(/```json|```/g, '').trim();
-    var parsed = JSON.parse(clean);
-
-    out.className = 'output-area';
-    out.textContent = parsed.nepali || raw;
-
-    if (parsed.preeti) {
-      document.getElementById('translatePreetiText').textContent = parsed.preeti;
-      document.getElementById('translatePreeti').style.display = 'block';
-    }
-
-    status.innerHTML = '<div class="status-bar ok">✓ Translation complete</div>';
-  } catch (err) {
-    out.className = 'output-area placeholder';
-    out.textContent = 'Translation failed. Please try again.';
-    status.innerHTML = '<div class="status-bar error">⚠ ' + (err.message || 'Unknown error') + '</div>';
-  } finally {
-    btn.disabled = false;
-    inner.innerHTML = '🌐 Translate to Nepali';
+  if (!input) {
+    outEl.className = 'output-area placeholder-text';
+    outEl.textContent = 'Nepali translation will appear here…';
+    bdEl.innerHTML = '';
+    prBox.style.display = 'none';
+    return;
   }
+
+  var lower = input.toLowerCase().replace(/[^a-z0-9\s']/g, ' ').replace(/\s+/g, ' ').trim();
+
+  // 1. Check full phrase overrides
+  var fullMatch = null;
+  for (var pi = 0; pi < PHRASES.length; pi++) {
+    if (lower === PHRASES[pi][0] || lower.indexOf(PHRASES[pi][0]) === 0) {
+      fullMatch = PHRASES[pi][1]; break;
+    }
+  }
+
+  // 2. Word-by-word translation
+  var words = lower.split(' ');
+  var translatedWords = [];
+  var breakdown = [];
+  var i = 0;
+  while (i < words.length) {
+    var w = words[i].replace(/[^a-z]/g,'');
+    if (!w) { i++; continue; }
+    // Try 3-word phrase
+    var tri = (words[i]||'') + ' ' + (words[i+1]||'') + ' ' + (words[i+2]||'');
+    var bi  = (words[i]||'') + ' ' + (words[i+1]||'');
+    var phraseMatch = null;
+    for (var pp = 0; pp < PHRASES.length; pp++) {
+      if (PHRASES[pp][0] === tri.trim()) { phraseMatch = { ne: PHRASES[pp][1], skip: 3 }; break; }
+      if (PHRASES[pp][0] === bi.trim())  { phraseMatch = { ne: PHRASES[pp][1], skip: 2 }; break; }
+    }
+    if (phraseMatch) {
+      translatedWords.push(phraseMatch.ne);
+      breakdown.push({ en: words.slice(i, i + phraseMatch.skip).join(' '), ne: phraseMatch.ne, found: true });
+      i += phraseMatch.skip;
+    } else if (DICT[w]) {
+      if (DICT[w]) { translatedWords.push(DICT[w]); }
+      breakdown.push({ en: w, ne: DICT[w] || w, found: !!DICT[w] });
+      i++;
+    } else {
+      translatedWords.push(w); // keep original
+      breakdown.push({ en: w, ne: w, found: false });
+      i++;
+    }
+  }
+
+  var sentence = fullMatch || translatedWords.filter(function(t){ return t; }).join(' ');
+
+  outEl.className = 'output-area unicode-text';
+  outEl.textContent = sentence;
+
+  // Preeti
+  var preetiOut = unicodeToPreeti(sentence);
+  prTxt.textContent = preetiOut;
+  prBox.style.display = 'block';
+
+  // Breakdown chips
+  var chips = breakdown.map(function(b) {
+    if (!b.found) return '<div class="word-chip not-found"><div class="w-en">' + b.en + '</div><div class="w-ne" style="font-size:12px;color:var(--text3)">(not found)</div></div>';
+    if (!b.ne) return '';
+    return '<div class="word-chip"><div class="w-en">' + b.en + '</div><div class="w-ne">' + b.ne + '</div></div>';
+  }).join('');
+  bdEl.innerHTML = '<div style="font-size:11px;color:var(--text3);font-family:\'JetBrains Mono\',monospace;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.06em;">Word breakdown</div><div class="word-results">' + chips + '</div>';
 }
 
 function clearTranslate() {
   document.getElementById('translateInput').value = '';
-  var out = document.getElementById('translateOutput');
-  out.className = 'output-area placeholder';
-  out.textContent = 'Translation will appear here…';
-  document.getElementById('translatePreeti').style.display = 'none';
-  document.getElementById('translateStatus').innerHTML = '';
+  var o = document.getElementById('transOutput');
+  o.className = 'output-area placeholder-text';
+  o.textContent = 'Nepali translation will appear here…';
+  document.getElementById('wordBreakdown').innerHTML = '';
+  document.getElementById('transPreetiBox').style.display = 'none';
 }
 
-// ════════════════════════════════════════════════════════
-// TRANSLITERATION (Roman → Devanagari)
-// ════════════════════════════════════════════════════════
-// Comprehensive Roman Nepali → Unicode Devanagari mapping
-var TRANSLIT_MAP = [
-  // Consonant clusters / digraphs (must come before singles)
-  ['ksh','क्ष'],['gya','ज्ञ'],['jnya','ज्ञ'],
-  ['chh','छ'],['Ch','छ'],['ch','च'],
-  ['sh','श'],['Sh','ष'],['sh','श'],
-  ['ph','फ'],['bh','भ'],['dh','ध'],['Dh','ढ'],
-  ['gh','घ'],['jh','झ'],['kh','ख'],['th','थ'],['Th','ठ'],
-  ['nh','ञ'],['ng','ङ'],
-  // Vowels (standalone)
-  ['aa','आ'],['ii','ई'],['uu','ऊ'],['ee','ई'],['oo','ऊ'],
-  ['ai','ऐ'],['au','औ'],['ae','ऐ'],['oi','ओइ'],
+// ════════════════════════════════════════════════════════════════
+//  TRANSLITERATION — Roman → Devanagari
+// ════════════════════════════════════════════════════════════════
+// Ordered rules: longest match first
+var TMAP = [
+  ['ksh','क्ष'],['gya','ज्ञ'],['jnya','ज्ञ'],['chh','छ'],['shh','ष'],
+  ['ch','च'],['sh','श'],['ph','फ'],['bh','भ'],['dh','ध'],['Dh','ढ'],
+  ['gh','घ'],['jh','झ'],['kh','ख'],['th','थ'],['Th','ठ'],['nh','ञ'],['ng','ङ'],
+  ['aa','आ'],['ii','ई'],['uu','ऊ'],['ee','ई'],['oo','ऊ'],['ai','ऐ'],['au','औ'],
   ['A','आ'],['I','ई'],['U','ऊ'],['E','ए'],['O','ओ'],
   ['a','अ'],['i','इ'],['u','उ'],['e','ए'],['o','ओ'],
-  // Consonants
-  ['k','क'],['K','क'],['g','ग'],['G','ग'],['c','क'],
-  ['j','ज'],['J','ज'],['z','ज'],['Z','ज'],
+  ['k','क'],['g','ग'],['c','क'],['j','ज'],['z','ज'],
   ['t','त'],['T','ट'],['d','द'],['D','ड'],
-  ['n','न'],['N','ण'],['m','म'],['M','म'],
+  ['n','न'],['N','ण'],['m','म'],
   ['p','प'],['b','ब'],['f','फ'],['v','व'],['w','व'],
-  ['r','र'],['R','र'],['l','ल'],['L','ल'],
-  ['s','स'],['S','स'],['h','ह'],['H','ह'],
-  ['y','य'],['Y','य'],['q','क'],['x','क्स'],
-  // Numbers
+  ['r','र'],['l','ल'],['s','स'],['h','ह'],['y','य'],
+  ['q','क'],['x','क्स'],
   ['0','०'],['1','१'],['2','२'],['3','३'],['4','४'],
   ['5','५'],['6','६'],['7','७'],['8','८'],['9','९'],
-  // Punctuation
-  ['।','।'],['.','।'],
 ];
-
-// Vowel diacritic marks (मात्राहरू) — used after consonants
-var VOWEL_DIACRITICS = {
-  'अ': '',   // inherent 'a' — no mark needed
-  'आ': 'ा',
-  'इ': 'ि',
-  'ई': 'ी',
-  'उ': 'ु',
-  'ऊ': 'ू',
-  'ए': 'े',
-  'ऐ': 'ै',
-  'ओ': 'ो',
-  'औ': 'ौ',
-};
-
-var VOWELS_SET = new Set(['अ','आ','इ','ई','उ','ऊ','ए','ऐ','ओ','औ']);
-var CONSONANTS_SET = new Set(['क','ख','ग','घ','ङ','च','छ','ज','झ','ञ','ट','ठ','ड','ढ','ण','त','थ','द','ध','न','प','फ','ब','भ','म','य','र','ल','व','श','ष','स','ह','क्ष','ज्ञ','त्र']);
+var VOWELS = new Set(['अ','आ','इ','ई','उ','ऊ','ए','ऐ','ओ','औ']);
+var CONSONANTS = new Set(['क','ख','ग','घ','ङ','च','छ','ज','झ','ञ','ट','ठ','ड','ढ','ण','त','थ','द','ध','न','प','फ','ब','भ','म','य','र','ल','व','श','ष','स','ह','क्ष','ज्ञ']);
+var DIACRITICS = { 'अ':'','आ':'ा','इ':'ि','ई':'ी','उ':'ु','ऊ':'ू','ए':'े','ऐ':'ै','ओ':'ो','औ':'ौ' };
 
 function romanToDevanagari(text) {
-  if (!text) return '';
   var result = '';
   var i = 0;
-  var len = text.length;
-  var prevWasConsonant = false;
-  var prevConsonant = '';
+  var prevCons = '';
 
-  while (i < len) {
-    // Handle space — reset consonant tracking
-    if (text[i] === ' ') {
-      if (prevWasConsonant && prevConsonant) {
-        result += prevConsonant + 'अ';
-        prevConsonant = '';
-      }
-      result += ' ';
-      prevWasConsonant = false;
-      i++;
-      continue;
+  function flush(vowel) {
+    if (!prevCons) return;
+    var d = DIACRITICS[vowel];
+    if (vowel === 'अ') result += prevCons;
+    else result += prevCons + d;
+    prevCons = '';
+  }
+
+  while (i < text.length) {
+    if (text[i] === ' ' || text[i] === '\n') {
+      if (prevCons) { result += prevCons + 'अ'; prevCons = ''; }
+      result += text[i]; i++; continue;
     }
-
-    // Try to match longest rule first
+    if (/[^a-zA-Z0-9]/.test(text[i]) && text[i] !== '।') {
+      if (prevCons) { result += prevCons + 'अ'; prevCons = ''; }
+      result += text[i]; i++; continue;
+    }
     var matched = false;
-    for (var ri = 0; ri < TRANSLIT_MAP.length; ri++) {
-      var rule = TRANSLIT_MAP[ri];
-      var from = rule[0];
-      var to = rule[1];
-      if (text.substr(i, from.length).toLowerCase() === from.toLowerCase() &&
-          text.substr(i, from.length) === from.replace(/./g, function(c,j){ return text[i+j] !== undefined ? text[i+j] : c; })) {
-        // exact case match
-        if (text.substr(i, from.length) === from) {
-          var isVowel = VOWELS_SET.has(to);
-          var isConsonant = CONSONANTS_SET.has(to);
-
-          if (isConsonant) {
-            if (prevWasConsonant && prevConsonant) {
-              // Two consonants in a row — add halanta to first
-              result += prevConsonant + '्';
-              prevConsonant = to;
-            } else {
-              if (prevWasConsonant && !prevConsonant) {
-                // was in middle of building
-              }
-              prevConsonant = to;
-            }
-            prevWasConsonant = true;
-          } else if (isVowel) {
-            if (prevWasConsonant && prevConsonant) {
-              var diacritic = VOWEL_DIACRITICS[to];
-              if (to === 'अ') {
-                result += prevConsonant; // inherent 'a'
-              } else {
-                result += prevConsonant + (diacritic || to);
-              }
-              prevConsonant = '';
-              prevWasConsonant = false;
-            } else {
-              result += to;
-            }
-          } else {
-            // digit or punctuation
-            if (prevWasConsonant && prevConsonant) {
-              result += prevConsonant + 'अ';
-              prevConsonant = '';
-              prevWasConsonant = false;
-            }
-            result += to;
-          }
-          i += from.length;
-          matched = true;
-          break;
+    for (var ri = 0; ri < TMAP.length; ri++) {
+      var from = TMAP[ri][0], to = TMAP[ri][1];
+      if (text.substr(i, from.length) === from) {
+        var isV = VOWELS.has(to);
+        var isC = CONSONANTS.has(to) || to === 'क्ष' || to === 'ज्ञ';
+        if (isC) {
+          if (prevCons) { result += prevCons + '्'; }
+          prevCons = to;
+        } else if (isV) {
+          flush(to);
+        } else {
+          // digit / punct
+          if (prevCons) { result += prevCons + 'अ'; prevCons = ''; }
+          result += to;
         }
+        i += from.length; matched = true; break;
       }
     }
-
     if (!matched) {
-      if (prevWasConsonant && prevConsonant) {
-        result += prevConsonant + 'अ';
-        prevConsonant = '';
-        prevWasConsonant = false;
-      }
-      result += text[i];
-      i++;
+      if (prevCons) { result += prevCons + 'अ'; prevCons = ''; }
+      result += text[i]; i++;
     }
   }
-
-  // Flush remaining consonant
-  if (prevWasConsonant && prevConsonant) {
-    result += prevConsonant + 'अ';
-  }
-
+  if (prevCons) result += prevCons + 'अ';
   return result;
 }
 
-// Better approach: use the Claude API for transliteration too (more accurate)
-async function doTranslitAPI() {
-  var input = document.getElementById('translitInput').value.trim();
-  var out = document.getElementById('translitOutput');
-  if (!input) {
-    out.className = 'output-area placeholder';
-    out.textContent = 'Devanagari will appear as you type…';
-    document.getElementById('translitPreeti').style.display = 'none';
-    return;
-  }
-
-  // For short instant feel, first apply local rules, then optionally refine via API
-  var localResult = romanToDevanagari(input);
-  out.className = 'output-area';
-  out.textContent = localResult || input;
-  document.getElementById('translitPreetiText').textContent = unicodeToPreetiBasic(localResult);
-  document.getElementById('translitPreeti').style.display = 'block';
-}
-
-var translitTimer = null;
 function doTranslit() {
-  clearTimeout(translitTimer);
-  var input = document.getElementById('translitInput').value.trim();
+  var input = document.getElementById('translitInput').value;
   var out = document.getElementById('translitOutput');
-  if (!input) {
-    out.className = 'output-area placeholder';
-    out.textContent = 'Devanagari will appear as you type…';
-    document.getElementById('translitPreeti').style.display = 'none';
-    return;
+  var pb = document.getElementById('translitPreetiBox');
+  var pt = document.getElementById('translitPreetiText');
+  if (!input.trim()) {
+    out.className = 'output-area placeholder-text';
+    out.textContent = 'Devanagari appears as you type…';
+    pb.style.display = 'none'; return;
   }
-  // Instant local conversion
   var result = romanToDevanagari(input);
-  out.className = 'output-area';
+  out.className = 'output-area unicode-text';
   out.textContent = result;
-  document.getElementById('translitPreetiText').textContent = unicodeToPreetiBasic(result);
-  document.getElementById('translitPreeti').style.display = 'block';
+  pt.textContent = unicodeToPreeti(result);
+  pb.style.display = 'block';
 }
 
 function clearTranslit() {
   document.getElementById('translitInput').value = '';
-  var out = document.getElementById('translitOutput');
-  out.className = 'output-area placeholder';
-  out.textContent = 'Devanagari will appear as you type…';
-  document.getElementById('translitPreeti').style.display = 'none';
+  var o = document.getElementById('translitOutput');
+  o.className = 'output-area placeholder-text';
+  o.textContent = 'Devanagari appears as you type…';
+  document.getElementById('translitPreetiBox').style.display = 'none';
 }
 
-// ════════════════════════════════════════════════════════
-// NUMBER TO NEPALI WORDS
-// ════════════════════════════════════════════════════════
-var ones = [
-  '', '\u090f\u0915', '\u0926\u0941\u0908', '\u0924\u0940\u0928', '\u091a\u093e\u0930', '\u092a\u093e\u0901\u091a', '\u091b', '\u0938\u093e\u0924', '\u0906\u0920', '\u0928\u094c',
-  '\u0926\u0936', '\u090f\u0918\u093e\u0930', '\u092c\u093e\u0939\u094d\u0930', '\u0924\u0947\u0939\u094d\u0930', '\u091a\u094c\u0927', '\u092a\u0928\u094d\u0927\u094d\u0930', '\u0938\u094b\u0939\u094d\u0930', '\u0938\u0924\u094d\u0930', '\u0905\u0920\u093e\u0930', '\u0909\u0928\u094d\u0928\u093e\u0907\u0938',
-  '\u092c\u0940\u0938', '\u090f\u0915\u094d\u0915\u093e\u0907\u0938', '\u092c\u093e\u0907\u0938', '\u0924\u0947\u0907\u0938', '\u091a\u094c\u092c\u0940\u0938', '\u092a\u091a\u094d\u091a\u0940\u0938', '\u091b\u092c\u094d\u092c\u0940\u0938', '\u0938\u0924\u094d\u0924\u093e\u0907\u0938', '\u0905\u0920\u094d\u0920\u093e\u0907\u0938', '\u0909\u0928\u0928\u094d\u0924\u0940\u0938',
-  '\u0924\u0940\u0938', '\u090f\u0915\u0924\u0940\u0938', '\u092c\u0924\u094d\u0924\u0940\u0938', '\u0924\u0947\u0924\u094d\u0924\u0940\u0938', '\u091a\u094c\u0924\u0940\u0938', '\u092a\u0948\u0902\u0924\u0940\u0938', '\u091b\u0924\u094d\u0924\u0940\u0938', '\u0938\u0948\u0902\u0924\u0940\u0938', '\u0905\u0920\u0924\u0940\u0938', '\u0909\u0928\u091a\u093e\u0932\u0940\u0938',
-  '\u091a\u093e\u0932\u0940\u0938', '\u090f\u0915\u091a\u093e\u0932\u0940\u0938', '\u092c\u092f\u093e\u0932\u0940\u0938', '\u0924\u094d\u0930\u093f\u092f\u093e\u0932\u0940\u0938', '\u091a\u0935\u093e\u0932\u0940\u0938', '\u092a\u0948\u0902\u0924\u093e\u0932\u0940\u0938', '\u091b\u092f\u093e\u0932\u0940\u0938', '\u0938\u0924\u091a\u093e\u0932\u0940\u0938', '\u0905\u0920\u091a\u093e\u0932\u0940\u0938', '\u0909\u0928\u092a\u091a\u093e\u0938',
-  '\u092a\u091a\u093e\u0938', '\u090f\u0915\u093e\u0909\u0928\u094d\u0928', '\u092c\u093e\u0909\u0928\u094d\u0928', '\u0924\u094d\u0930\u093f\u092a\u0928\u094d\u0928', '\u091a\u094c\u092a\u0928\u094d\u0928', '\u092a\u091a\u092a\u0928\u094d\u0928', '\u091b\u092a\u0928\u094d\u0928', '\u0938\u0928\u094d\u0924\u093e\u0909\u0928\u094d\u0928', '\u0905\u0920\u093e\u0909\u0928\u094d\u0928', '\u0909\u0928\u0938\u0920\u0940',
-  '\u0938\u093e\u0920\u0940', '\u090f\u0915\u0938\u0920\u0940', '\u092c\u093e\u0938\u0920\u0940', '\u0924\u094d\u0930\u093f\u0938\u0920\u0940', '\u091a\u094c\u0938\u0920\u0940', '\u092a\u0948\u0902\u0938\u0920\u0940', '\u091b\u0948\u0938\u0920\u0940', '\u0938\u0924\u094d\u0938\u0920\u0940', '\u0905\u0920\u0938\u0920\u0940', '\u0909\u0928\u0938\u0924\u094d\u0924\u0930\u0940',
-  '\u0938\u0924\u094d\u0924\u0930\u0940', '\u090f\u0915\u0939\u0924\u094d\u0924\u0930', '\u092c\u0939\u0924\u094d\u0924\u0930', '\u0924\u094d\u0930\u093f\u0939\u0924\u094d\u0924\u0930', '\u091a\u094c\u0939\u0924\u094d\u0924\u0930', '\u092a\u091a\u0939\u0924\u094d\u0924\u0930', '\u091b\u0939\u0924\u094d\u0924\u0930', '\u0938\u0924\u0939\u0924\u094d\u0924\u0930', '\u0905\u0920\u0939\u0924\u094d\u0924\u0930', '\u0909\u0928\u093e\u0938\u0940',
-  '\u0905\u0938\u0940', '\u090f\u0915\u093e\u0938\u0940', '\u092c\u092f\u093e\u0938\u0940', '\u0924\u094d\u0930\u094d\u092f\u093e\u0938\u0940', '\u091a\u094c\u0930\u093e\u0938\u0940', '\u092a\u091a\u093e\u0938\u0940', '\u091b\u092f\u093e\u0938\u0940', '\u0938\u0924\u093e\u0938\u0940', '\u0905\u0920\u093e\u0938\u0940', '\u0909\u0928\u093e\u0928\u094d\u0928\u092c\u094d\u092c\u0947',
-  '\u0928\u092c\u094d\u092c\u0947', '\u090f\u0915\u093e\u0928\u092c\u094d\u092c\u0947', '\u092c\u092f\u093e\u0928\u092c\u094d\u092c\u0947', '\u0924\u094d\u0930\u093f\u092f\u093e\u0928\u092c\u094d\u092c\u0947', '\u091a\u094c\u0930\u093e\u0928\u092c\u094d\u092c\u0947', '\u092a\u0928\u094d\u091a\u093e\u0928\u092c\u094d\u092c\u0947', '\u091b\u092f\u093e\u0928\u092c\u094d\u092c\u0947', '\u0938\u0928\u094d\u0924\u093e\u0928\u092c\u094d\u092c\u0947', '\u0905\u0920\u093e\u0928\u092c\u094d\u092c\u0947', '\u0909\u0928\u0928\u094d\u0938\u092f'
+// ════════════════════════════════════════════════════════════════
+//  NUMBER TO NEPALI WORDS
+// ════════════════════════════════════════════════════════════════
+var ONES_U = [
+  '','एक','दुई','तीन','चार','पाँच','छ','सात','आठ','नौ',
+  'दश','एघार','बाह्र','तेह्र','चौध','पन्ध्र','सोह्र','सत्र','अठार','उन्नाइस',
+  'बीस','एक्काइस','बाइस','तेइस','चौबीस','पच्चीस','छब्बीस','सत्ताइस','अठ्ठाइस','उनन्तीस',
+  'तीस','एकतीस','बत्तीस','तेत्तीस','चौतीस','पैंतीस','छत्तीस','सैंतीस','अठतीस','उनचालीस',
+  'चालीस','एकचालीस','बयालीस','त्रियालीस','चवालीस','पैंतालीस','छयालीस','सतचालीस','अठचालीस','उनपचास',
+  'पचास','एकाउन्न','बाउन्न','त्रिपन्न','चौपन्न','पचपन्न','छपन्न','सन्ताउन्न','अठाउन्न','उनसठी',
+  'साठी','एकसठी','बासठी','त्रिसठी','चौसठी','पैंसठी','छैसठी','सत्सठी','अठसठी','उनसत्तरी',
+  'सत्तरी','एकहत्तर','बहत्तर','त्रिहत्तर','चौहत्तर','पचहत्तर','छहत्तर','सतहत्तर','अठहत्तर','उनासी',
+  'असी','एकासी','बयासी','त्र्यासी','चौरासी','पचासी','छयासी','सतासी','अठासी','उनान्नब्बे',
+  'नब्बे','एकानब्बे','बयानब्बे','त्रियानब्बे','चौरानब्बे','पन्चानब्बे','छयानब्बे','सन्तानब्बे','अठानब्बे','उनन्सय'
 ];
-var preetis = [
+var ONES_P = [
   '','Ps',"b'O",'tLg','rf/','kfFr','5','xft','cf7','gf}',
   'bz','P3f/','afXb','tXb','rf}w','kGb','xf]Xb','xb','c7f/','pgfOx',
   'aLx','PsfOx','afOx','tPOx','rf}aLx','kRrLx','5AaLx','xQfOx','c7AaLx','pgGtLx',
@@ -676,101 +650,79 @@ var preetis = [
   'GAA]','PsfGA]','aofGA]','l8ofGA]','rf}]fGA]','kGrfGA]','5ofGA]','xGtfGA]','c7fGA]','pgGxy'
 ];
 
-var numCurrency = 'rupees';
+var numCur = 'rupees';
 var numLastU = '', numLastP = '';
 
+function toNepaliWords(n) {
+  if (n === 0) return { u: 'शून्य', p: 'zGo' };
+  var u = [], p = [];
+  function a(v, us, ps) { if (v > 0) { u.push(ONES_U[v] + us); p.push(ONES_P[v] + ps); } }
+  a(Math.floor(n/1000000000),' अरब',' c/a'); n %= 1000000000;
+  a(Math.floor(n/10000000),' करोड',' s/f]8'); n %= 10000000;
+  a(Math.floor(n/100000),' लाख',' nfv'); n %= 100000;
+  a(Math.floor(n/1000),' हजार',' xhf/'); n %= 1000;
+  a(Math.floor(n/100),' सय',' xo'); n %= 100;
+  if (n > 0) { u.push(ONES_U[n]); p.push(ONES_P[n]); }
+  return { u: u.join(' '), p: p.join(' ') };
+}
+
 function setCur(c) {
-  numCurrency = c;
+  numCur = c;
   document.querySelectorAll('.cur-btn').forEach(function(b){ b.classList.remove('active'); });
   document.getElementById('cur-' + c).classList.add('active');
   renderNum();
 }
-function setNum(n) {
-  document.getElementById('numberInput').value = n;
-  renderNum();
-}
-
-function toNepaliWords(n) {
-  if (n === 0) return { u: '\u0936\u0942\u0928\u094d\u092f', p: 'zGo' };
-  var u = [], p = [];
-  function add(v, uSuf, pSuf) { u.push(ones[v] + uSuf); p.push(preetis[v] + pSuf); }
-  if (n >= 1000000000) { add(Math.floor(n/1000000000),' \u0905\u0930\u092c',' c/a'); n%=1000000000; }
-  if (n >= 10000000)   { add(Math.floor(n/10000000),' \u0915\u0930\u094b\u0921',' s/f]8'); n%=10000000; }
-  if (n >= 100000)     { add(Math.floor(n/100000),' \u0932\u093e\u0916',' nfv'); n%=100000; }
-  if (n >= 1000)       { add(Math.floor(n/1000),' \u0939\u091c\u093e\u0930',' xhf/'); n%=1000; }
-  if (n >= 100)        { add(Math.floor(n/100),' \u0938\u092f',' xo'); n%=100; }
-  if (n > 0)           { u.push(ones[n]); p.push(preetis[n]); }
-  return { u: u.join(' '), p: p.join(' ') };
-}
+function setNum(n) { document.getElementById('numberInput').value = n; renderNum(); }
 
 function renderNum() {
   var val = document.getElementById('numberInput').value;
   var uEl = document.getElementById('numUnicode');
   var pEl = document.getElementById('numPreeti');
   if (val === '') {
-    uEl.className = 'nrr-value placeholder'; uEl.textContent = 'Enter a number above\u2026';
-    pEl.style.fontFamily = "'Crimson Pro',serif"; pEl.style.color = 'var(--text3)'; pEl.style.fontSize = '16px'; pEl.style.fontStyle = 'italic';
-    pEl.textContent = 'Preeti output will appear here\u2026';
-    return;
+    uEl.className = 'nrr-value nrr-placeholder'; uEl.textContent = 'Enter a number above…';
+    pEl.className = 'nrr-placeholder'; pEl.style.fontSize = '15px'; pEl.textContent = 'Preeti output will appear here…'; return;
   }
   var num = parseInt(val, 10);
   if (isNaN(num) || num < 0 || num > 9999999999) {
-    uEl.className = 'nrr-value placeholder'; uEl.textContent = 'Please enter a valid number (0\u2013999,99,99,999)';
-    return;
+    uEl.className = 'nrr-value nrr-placeholder'; uEl.textContent = 'Valid range: 0 – 999,99,99,999'; return;
   }
   var r = toNepaliWords(num);
   numLastU = r.u; numLastP = r.p;
-  if (numCurrency === 'rupees') { numLastU += ' \u0930\u0941\u092a\u0948\u092f\u093e\u0901'; numLastP += ' ?kof+'; }
-  else if (numCurrency === 'paisa') { numLastU += ' \u092a\u0948\u0938\u093e'; numLastP += ' k}xf'; }
+  if (numCur === 'rupees') { numLastU += ' रुपैयाँ'; numLastP += ' ?kof+'; }
+  else if (numCur === 'paisa') { numLastU += ' पैसा'; numLastP += ' k}xf'; }
   uEl.className = 'nrr-value'; uEl.textContent = numLastU;
-  pEl.style.fontFamily = 'Preeti,monospace'; pEl.style.color = 'var(--gold2)'; pEl.style.fontSize = '22px'; pEl.style.fontStyle = 'normal';
-  pEl.textContent = numLastP;
+  pEl.className = 'nrr-value preeti-val'; pEl.style.fontSize = ''; pEl.textContent = numLastP;
 }
 
-function copySmall(elId, btnId) {
-  var text = document.getElementById(elId).textContent;
-  navigator.clipboard.writeText(text).then(function() {
-    var btn = document.getElementById(btnId);
-    var orig = btn.textContent;
-    btn.textContent = '✓ Copied'; btn.classList.add('copied');
-    setTimeout(function(){ btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
-  });
-}
-
-// ════════════════════════════════════════════════════════
-// BASIC UNICODE → PREETI MAPPING (for transliterator output)
-// ════════════════════════════════════════════════════════
-function unicodeToPreetiBasic(text) {
-  // Basic substitution map — core characters
-  var map = {
-    '\u0905':'c','\u0906':'cf','\u0907':'O','\u0908':'O{','\u0909':'p','\u090a':'pm',
-    '\u090f':'o','\u0910':'o{','\u0913':'cf]','\u0914':'cf}',
-    '\u0915':'s','\u0916':'v','\u0917':'u','\u0918':'3','\u0919':'}+',
-    '\u091a':'r','\u091b':'5','\u091c':'h','\u091d':'em','\u091e':'~',
-    '\u091f':'6','\u0920':'7','\u0921':'8','\u0922':'9','\u0923':'+',
-    '\u0924':'t','\u0925':'y','\u0926':'b','\u0927':'w','\u0928':'g',
-    '\u092a':'k','\u092b':'km','\u092c':'a','\u092d':'e','\u092e':'d',
-    '\u092f':'o','\u0930':'/','\u0932':'n','\u0935':'j',
-    '\u0936':'z','\u0937':'{','\u0938':'x','\u0939':'x',
-    '\u093e':'f','\u093f':'L','\u0940':'Lf','\u0941':'p','\u0942':'pm',
-    '\u0947':'o','\u0948':'o}','\u094b':'f]','\u094c':'f}',
-    '\u094d':'\\','\u0902':'+','\u0903':' M','\u0950':'}',
-    '\u0966':')','\u0967':'!','\u0968':'@','\u0969':'#','\u096a':'$',
-    '\u096b':'%','\u096c':'^','\u096d':'&','\u096e':'*','\u096f':'(',
+// ════════════════════════════════════════════════════════════════
+//  UNICODE → PREETI  (basic map for translation/translit output)
+// ════════════════════════════════════════════════════════════════
+function unicodeToPreeti(text) {
+  var m = {
+    'अ':'c','आ':'cf','इ':'O','ई':'O{','उ':'p','ऊ':'pm','ए':'P','ऐ':'P{','ओ':'cf]','औ':'cf}',
+    'क':'s','ख':'v','ग':'u','घ':'3','ङ':'}+',
+    'च':'r','छ':'5','ज':'h','झ':'em','ञ':'~',
+    'ट':'6','ठ':'7','ड':'8','ढ':'9','ण':'+',
+    'त':'t','थ':'y','द':'b','ध':'w','न':'g',
+    'प':'k','फ':'km','ब':'a','भ':'e','म':'d',
+    'य':'o','र':'/','ल':'n','व':'j','श':'z','ष':'{','स':'x','ह':'x',
+    'ा':'f','ि':'L','ी':'Lf','ु':'p','ू':'pm','े':'']','ै':'}{',
+    'ो':'f]','ौ':'f}','्':'\\','ं':'+','ः':' M',
+    '०':')','१':'!','२':'@','३':'#','४':'$','५':'%','६':'^','७':'&','८':'*','९':'(',
+    '।':' .','ृ':'\'',
   };
-  var result = '';
+  var out = '';
   for (var i = 0; i < text.length; i++) {
-    result += map[text[i]] !== undefined ? map[text[i]] : text[i];
+    out += (m[text[i]] !== undefined) ? m[text[i]] : text[i];
   }
-  return result;
+  return out;
 }
 
-// ════════════════════════════════════════════════════════
-// COPY HELPERS
-// ════════════════════════════════════════════════════════
-function copyOutput(elId, btnId) {
-  var el = document.getElementById(elId);
-  var text = el.textContent || el.innerText;
+// ════════════════════════════════════════════════════════════════
+//  COPY HELPER
+// ════════════════════════════════════════════════════════════════
+function copyEl(elId, btnId) {
+  var text = document.getElementById(elId).textContent;
   navigator.clipboard.writeText(text).then(function() {
     var btn = document.getElementById(btnId);
     var orig = btn.textContent;
@@ -779,14 +731,13 @@ function copyOutput(elId, btnId) {
   });
 }
 
-// ════════════════════════════════════════════════════════
-// INIT
-// ════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════════════════════════
 window.onload = function() {
   document.getElementById('numberInput').addEventListener('input', renderNum);
   document.getElementById('numberInput').addEventListener('keyup', renderNum);
-
-  // Allow Enter to translate
+  // Ctrl+Enter to translate
   document.getElementById('translateInput').addEventListener('keydown', function(e) {
     if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) doTranslate();
   });
